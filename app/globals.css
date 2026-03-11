@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary-dark: #0E206C;
+  --color-primary: #1C40A1;
+  --color-brand: #3379F6;
+  --color-accent: #33CCF6;
+  --color-bg: #FCFCFC;
+  --color-text: #0E206C;
+  --color-muted: #6b7280;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-urbanist), sans-serif;
+}
+
+.input {
+  @apply w-full rounded-xl border p-3 outline-none transition;
+  border-color: #dbe4f0;
+  background: white;
+}
+
+.input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px rgba(51, 204, 246, 0.18);
+}
+
+.btn-primary {
+  @apply rounded-xl px-5 py-3 text-white font-semibold transition;
+  background: linear-gradient(135deg, #3379F6 0%, #1C40A1 100%);
+}
+
+.btn-primary:hover {
+  filter: brightness(0.95);
+}
+
+.btn-secondary {
+  @apply rounded-xl px-4 py-3 text-white transition;
+  background: linear-gradient(135deg, #33CCF6 0%, #3379F6 100%);
+}
+
+.section-card {
+  @apply rounded-2xl border bg-white p-6 shadow-sm;
+  border-color: rgba(14, 32, 108, 0.08);
+}
+
+.section-title {
+  @apply flex items-center gap-2 text-xl font-bold;
+  color: var(--color-primary-dark);
+}
+
+.page-shell {
+  background:
+    radial-gradient(circle at top left, rgba(51, 204, 246, 0.10), transparent 25%),
+    radial-gradient(circle at top right, rgba(51, 121, 246, 0.10), transparent 20%),
+    var(--color-bg);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+  }
+}
