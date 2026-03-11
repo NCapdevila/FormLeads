@@ -11,14 +11,13 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-
-    const url = `https://api.datacar.com.ar/vehicle/${patente}`;
+    const urlData = process.env.DATACAR_URL
+    const url = `${urlData}/vehicle/${patente}`;
 
     const response = await fetch(url, {
       method: "GET",
       headers: {
-        Authorization:
-          "Basic Y2Vicm9rZXJzOnNHS29GVCNYMFIqUkV0Z1RhYmhJbHhtODdWNm5FUFRKT3poQzBLQkQ5b3ltNEx0MmZh",
+        Authorization: process.env.DATACAR_AUTH as string,
       },
     });
 

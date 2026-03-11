@@ -316,6 +316,11 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setGuardandoLead(false);
   }
 };
+
+const riesgoOptions = [
+  { value: "AUTO", label: "Auto" },
+  { value: "MOTO", label: "Moto" },
+];
   return (
 
     <form

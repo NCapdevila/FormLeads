@@ -8,7 +8,7 @@ const urbanist = Urbanist({
 });
 
 export const metadata: Metadata = {
-  title: "Cotizador CEBrokers",
+  title: "Form Leads - CEBrokers",
   description: "Formulario de carga de leads",
 };
 

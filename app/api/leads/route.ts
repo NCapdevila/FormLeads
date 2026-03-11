@@ -39,7 +39,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const webhookUrl = process.env.GOOGLE_WEBHOOK_URL || "no encontrada";
+    const webhookUrl = process.env.GOOGLE_SHEET_WEBHOOK_URL || "no encontrada";
 
     const response = await fetch(webhookUrl, {
       method: "POST",
