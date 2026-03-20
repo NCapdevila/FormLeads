@@ -9,47 +9,50 @@ import {
 } from "lucide-react";
 
 import SearchSelect from "@/components/SearchSelect";
-import { vendedores, productores } from "@/lib/catalogos";
+import { vendedores } from "@/lib/vendedores";
+import { productores } from "@/lib/productores";
 import { consultarPatente } from "@/lib/datacar";
+
 
 export default function LeadForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [consultandoPatente, setConsultandoPatente] = useState(false);
   const [guardandoLead, setGuardandoLead] = useState(false);
   const [toast, setToast] = useState<{
-  open: boolean;
-  type: "success" | "error";
-  title: string;
-  message: string;
-}>({
-  open: false,
-  type: "success",
-  title: "",
-  message: "",
-});
-
-const showToast = (
-  type: "success" | "error",
-  title: string,
-  message: string
-) => {
-  setToast({
-    open: true,
-    type,
-    title,
-    message,
+    open: boolean;
+    type: "success" | "error";
+    title: string;
+    message: string;
+  }>({
+    open: false,
+    type: "success",
+    title: "",
+    message: "",
   });
 
-  setTimeout(() => {
-    setToast((prev) => ({
-      ...prev,
-      open: false,
-    }));
-  }, 3500);
-};
+  const showToast = (
+    type: "success" | "error",
+    title: string,
+    message: string
+  ) => {
+    setToast({
+      open: true,
+      type,
+      title,
+      message,
+    });
+
+    setTimeout(() => {
+      setToast((prev) => ({
+        ...prev,
+        open: false,
+      }));
+    }, 3500);
+  };
 
   const [formData, setFormData] = useState({
-    nombreCompleto: "",
+    nombre: "",
+    apellido: "",
     fechaNacimiento: "",
     provincia: "",
     localidad: "",
@@ -68,270 +71,280 @@ const showToast = (
     esPrendado: false,
     fechaFinPrenda: "",
     vendedor: "",
-    productorAgencia: ""
+    productorAgencia: "",
+    esReferido: false,
+
   });
 
   const showVehicleFields =
     formData.riesgo === "AUTO" ||
     formData.riesgo === "MOTO";
 
-    const limpiarDatosVehiculo = (data: typeof formData) => ({
-  ...data,
-  patente: "",
-  marca: "",
-  modelo: "",
-  version: "",
-  anio: "",
-  motor: "",
-  chasis: "",
-  es0km: false,
-  esPrendado: false,
-  fechaFinPrenda: "",
-});
+  const limpiarDatosVehiculo = (data: typeof formData) => ({
+    ...data,
+    patente: "",
+    marca: "",
+    modelo: "",
+    version: "",
+    anio: "",
+    motor: "",
+    chasis: "",
+    es0km: false,
+    esPrendado: false,
+    fechaFinPrenda: "",
+  });
 
-const validarFormulario = () => {
-  const nuevosErrores: Record<string, string> = {};
+  const validarFormulario = () => {
+    const nuevosErrores: Record<string, string> = {};
 
-  if (!formData.nombreCompleto.trim()) {
-    nuevosErrores.nombreCompleto = "Ingresá el nombre completo";
-  }
-
-  if (!formData.provincia.trim()) {
-    nuevosErrores.provincia = "Ingresá la provincia";
-  }
-
-  if (!formData.localidad.trim()) {
-    nuevosErrores.localidad = "Ingresá la localidad";
-  }
-
-  if (!formData.codigoPostal.trim()) {
-    nuevosErrores.codigoPostal = "Ingresá el código postal";
-  }
-
-  if (!formData.riesgo.trim()) {
-    nuevosErrores.riesgo = "Seleccioná el riesgo";
-  }
-
-  if (!formData.vendedor.trim()) {
-    nuevosErrores.vendedor = "Seleccioná un vendedor";
-  }
-
-  if (!formData.productorAgencia.trim()) {
-    nuevosErrores.productorAgencia = "Seleccioná productor o agencia";
-  }
-
-  if (!formData.email.trim() && !formData.celular.trim()) {
-    nuevosErrores.email = "Ingresá email o celular";
-    nuevosErrores.celular = "Ingresá email o celular";
-  }
-
-  if (formData.esPrendado && !formData.fechaFinPrenda.trim()) {
-    nuevosErrores.fechaFinPrenda = "Ingresá la fecha fin de prenda";
-  }
-
-  setErrors(nuevosErrores);
-
-  return nuevosErrores;
-};
-
-const irAlPrimerError = (nuevosErrores: Record<string, string>) => {
-  const primerCampo = Object.keys(nuevosErrores)[0];
-  if (!primerCampo) return;
-
-  const elemento = document.querySelector(
-    `[name="${primerCampo}"]`
-  ) as HTMLElement | null;
-
-  if (elemento) {
-    elemento.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-
-    if ("focus" in elemento) {
-      elemento.focus();
+    if (!formData.nombre.trim()) {
+      nuevosErrores.nombre = "Ingresá el nombre";
     }
-  }
-};
+
+    if (!formData.apellido.trim()) {
+      nuevosErrores.apellido = "Ingresá el apellido";
+    }
+
+    if (!formData.provincia.trim()) {
+      nuevosErrores.provincia = "Ingresá la provincia";
+    }
+
+    if (!formData.localidad.trim()) {
+      nuevosErrores.localidad = "Ingresá la localidad";
+    }
+
+    if (!formData.codigoPostal.trim()) {
+      nuevosErrores.codigoPostal = "Ingresá el código postal";
+    }
+
+    if (!formData.riesgo.trim()) {
+      nuevosErrores.riesgo = "Seleccioná el riesgo";
+    }
+
+    if (!formData.vendedor.trim()) {
+      nuevosErrores.vendedor = "Seleccioná un vendedor";
+    }
+
+    if (!formData.productorAgencia.trim()) {
+      nuevosErrores.productorAgencia = "Seleccioná productor o agencia";
+    }
+
+
+    if (!formData.email.trim() && !formData.celular.trim()) {
+      nuevosErrores.email = "Ingresá email o celular";
+      nuevosErrores.celular = "Ingresá email o celular";
+    }
+
+    if (formData.esPrendado && !formData.fechaFinPrenda.trim()) {
+      nuevosErrores.fechaFinPrenda = "Ingresá la fecha fin de prenda";
+    }
+
+    setErrors(nuevosErrores);
+
+    return nuevosErrores;
+  };
+
+  const irAlPrimerError = (nuevosErrores: Record<string, string>) => {
+    const primerCampo = Object.keys(nuevosErrores)[0];
+    if (!primerCampo) return;
+
+    const elemento = document.querySelector(
+      `[name="${primerCampo}"]`
+    ) as HTMLElement | null;
+
+    if (elemento) {
+      elemento.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+      if ("focus" in elemento) {
+        elemento.focus();
+      }
+    }
+  };
 
 
 
   const handleChange = (
-  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-) => {
-  const { name, value, type } = e.target;
-  const checked =
-    type === "checkbox" && "checked" in e.target ? e.target.checked : false;
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type } = e.target;
+    const checked =
+      type === "checkbox" && "checked" in e.target ? e.target.checked : false;
 
-  setFormData((prev) => {
-    let updated = {
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    };
+    setFormData((prev) => {
+      let updated = {
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      };
 
-    if (name === "esPrendado" && !checked) {
-      updated.fechaFinPrenda = "";
-    }
+      if (name === "esPrendado" && !checked) {
+        updated.fechaFinPrenda = "";
+      }
 
-    if (name === "riesgo" && value !== prev.riesgo) {
-      updated = limpiarDatosVehiculo(updated);
-    }
+      if (name === "riesgo" && value !== prev.riesgo) {
+        updated = limpiarDatosVehiculo(updated);
+      }
 
-    return updated;
-  });
-
-  setErrors((prev) => {
-    const nextErrors = {
-      ...prev,
-      [name]: "",
-    };
-
-    // Si cambia email o celular, limpiar ambos errores
-    if (name === "email" || name === "celular") {
-      nextErrors.email = "";
-      nextErrors.celular = "";
-    }
-
-    // Si deja de ser prendado, limpiar error de fecha
-    if (name === "esPrendado" && !checked) {
-      nextErrors.fechaFinPrenda = "";
-    }
-
-    // Si cambia el riesgo, limpiar errores del bloque vehículo
-    if (name === "riesgo") {
-      nextErrors.riesgo = "";
-      nextErrors.patente = "";
-      nextErrors.marca = "";
-      nextErrors.modelo = "";
-      nextErrors.version = "";
-      nextErrors.anio = "";
-      nextErrors.motor = "";
-      nextErrors.chasis = "";
-      nextErrors.fechaFinPrenda = "";
-    }
-
-    return nextErrors;
-  });
-};
-  const handleConsultarPatente = async () => {
-  if (!formData.patente) {
-    alert("Ingresá una patente");
-    return;
-  }
-
-  try {
-    setConsultandoPatente(true);
-
-    const data = await consultarPatente(formData.patente);
-
-    setFormData((prev) => ({
-      ...prev,
-      marca: data.marca || "",
-      modelo: data.modelo || "",
-      version: data.version || "",
-      anio: data.anio || "",
-      motor: data.motor || "",
-      chasis : data.chasis || "",
-
-    }));
-  } catch (error) {
-    alert("No se pudo consultar la patente");
-  } finally {
-    setConsultandoPatente(false);
-  }
-};
-
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-
-  const nuevosErrores = validarFormulario();
-
-  if (Object.keys(nuevosErrores).length > 0) {
-    showToast(
-      "error",
-      "Revisá el formulario",
-      "Hay campos obligatorios sin completar."
-    );
-    irAlPrimerError(nuevosErrores);
-    return;
-  }
-
-  try {
-    setGuardandoLead(true);
-
-    const response = await fetch("/api/leads", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
+      return updated;
     });
 
-    const result = await response.json();
+    setErrors((prev) => {
+      const nextErrors = {
+        ...prev,
+        [name]: "",
+      };
 
-    if (!response.ok || !result.success) {
-      console.error(result);
+      // Si cambia email o celular, limpiar ambos errores
+      if (name === "email" || name === "celular") {
+        nextErrors.email = "";
+        nextErrors.celular = "";
+      }
 
-      const backendMessage =
-        Array.isArray(result?.details) && result.details.length > 0
-          ? result.details[0]
-          : result?.error || "Ocurrió un problema al guardar el lead.";
+      // Si deja de ser prendado, limpiar error de fecha
+      if (name === "esPrendado" && !checked) {
+        nextErrors.fechaFinPrenda = "";
+      }
 
-      showToast(
-        "error",
-        "No se pudo guardar",
-        backendMessage
-      );
+      // Si cambia el riesgo, limpiar errores del bloque vehículo
+      if (name === "riesgo") {
+        nextErrors.riesgo = "";
+        nextErrors.patente = "";
+        nextErrors.marca = "";
+        nextErrors.modelo = "";
+        nextErrors.version = "";
+        nextErrors.anio = "";
+        nextErrors.motor = "";
+        nextErrors.chasis = "";
+        nextErrors.fechaFinPrenda = "";
+      }
+
+      return nextErrors;
+    });
+  };
+  const handleConsultarPatente = async () => {
+    if (!formData.patente) {
+      alert("Ingresá una patente");
       return;
     }
 
-    showToast(
-      "success",
-      "Lead guardado",
-      "El lead se guardó correctamente."
-    );
+    try {
+      setConsultandoPatente(true);
 
-    setFormData({
-      nombreCompleto: "",
-      fechaNacimiento: "",
-      provincia: "",
-      localidad: "",
-      codigoPostal: "",
-      email: "",
-      celular: "",
-      riesgo: "",
-      patente: "",
-      marca: "",
-      modelo: "",
-      version: "",
-      anio: "",
-      motor: "",
-      chasis: "",
-      es0km: false,
-      esPrendado: false,
-      fechaFinPrenda: "",
-      vendedor: "",
-      productorAgencia: "",
-    });
+      const data = await consultarPatente(formData.patente);
 
-    setErrors({});
-  } catch (error) {
-    console.error(error);
+      setFormData((prev) => ({
+        ...prev,
+        marca: data.marca || "",
+        modelo: data.modelo || "",
+        version: data.version || "",
+        anio: data.anio || "",
+        motor: data.motor || "",
+        chasis: data.chasis || "",
 
-    showToast(
-      "error",
-      "Error inesperado",
-      "Hubo un error al intentar guardar el lead."
-    );
-  } finally {
-    setGuardandoLead(false);
-  }
-};
+      }));
+    } catch (error) {
+      alert("No se pudo consultar la patente");
+    } finally {
+      setConsultandoPatente(false);
+    }
+  };
 
-const riesgoOptions = [
-  { value: "AUTO", label: "Auto" },
-  { value: "MOTO", label: "Moto" },
-];
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const nuevosErrores = validarFormulario();
+
+    if (Object.keys(nuevosErrores).length > 0) {
+      showToast(
+        "error",
+        "Revisá el formulario",
+        "Hay campos obligatorios sin completar."
+      );
+      irAlPrimerError(nuevosErrores);
+      return;
+    }
+
+    try {
+      setGuardandoLead(true);
+
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        console.error(result);
+
+        const backendMessage =
+          Array.isArray(result?.details) && result.details.length > 0
+            ? result.details[0]
+            : result?.error || "Ocurrió un problema al guardar el lead.";
+
+        showToast(
+          "error",
+          "No se pudo guardar",
+          backendMessage
+        );
+        return;
+      }
+
+      showToast(
+        "success",
+        "Lead guardado",
+        "El lead se guardó correctamente."
+      );
+
+      setFormData({
+        nombre: "",
+        apellido: "",
+        fechaNacimiento: "",
+        provincia: "",
+        localidad: "",
+        codigoPostal: "",
+        email: "",
+        celular: "",
+        riesgo: "",
+        patente: "",
+        marca: "",
+        modelo: "",
+        version: "",
+        anio: "",
+        motor: "",
+        chasis: "",
+        es0km: false,
+        esPrendado: false,
+        fechaFinPrenda: "",
+        vendedor: "",
+        productorAgencia: "",
+        esReferido: false,
+
+      });
+
+      setErrors({});
+    } catch (error) {
+      console.error(error);
+
+      showToast(
+        "error",
+        "Error inesperado",
+        "Hubo un error al intentar guardar el lead."
+      );
+    } finally {
+      setGuardandoLead(false);
+    }
+  };
+
+  const riesgoOptions = [
+    { value: "AUTO", label: "Auto" },
+    { value: "MOTO", label: "Moto" },
+  ];
   return (
 
     <form
@@ -353,21 +366,32 @@ const riesgoOptions = [
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
           <input
-            name="nombreCompleto"
-            placeholder="Nombre Completo"
-            value={formData.nombreCompleto}
+            name="nombre"
+            placeholder="Nombre"
+            value={formData.nombre}
             onChange={handleChange}
             className="input"
           />
 
-         <input
-  type="date"
-  name="fechaNacimiento"
-  value={formData.fechaNacimiento}
-  onChange={handleChange}
-  placeholder="Fecha de nacimiento"
-  className="input"
-/>
+          <input
+            name="apellido"
+            placeholder="Apellido"
+            value={formData.apellido}
+            onChange={handleChange}
+            className="input"
+          />
+
+
+
+          <input
+
+            type="date"
+            name="fechaNacimiento"
+            value={formData.fechaNacimiento}
+            onChange={handleChange}
+            placeholder="Fecha de nacimiento"
+            className="input"
+          />
 
           <input
             name="email"
@@ -462,10 +486,25 @@ const riesgoOptions = [
             onChange={(value) =>
               setFormData(prev => ({
                 ...prev,
-                productorAgencia: value
+                productorAgencia: value,
+                esReferido: false,
               }))
             }
           />
+
+          {formData.productorAgencia === "ARDAMA 2020 S.A." && (
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name="esReferido"
+                checked={formData.esReferido}
+                onChange={handleChange}
+              />
+              Es referido
+            </label>
+          )}
+
+
 
         </div>
 
@@ -491,6 +530,7 @@ const riesgoOptions = [
           <option value="">Seleccionar riesgo</option>
           <option value="AUTO">Auto</option>
           <option value="MOTO">Moto</option>
+          <option value="HOGAR">Hogar</option>
         </select>
 
         {showVehicleFields && (
@@ -508,16 +548,16 @@ const riesgoOptions = [
               />
 
               <button
-  type="button"
-  onClick={handleConsultarPatente}
-  disabled={consultandoPatente}
-  className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 text-white hover:bg-blue-700 transition disabled:cursor-not-allowed disabled:opacity-70"
->
-  {consultandoPatente && (
-    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-  )}
-  {consultandoPatente ? "Consultando..." : "Consultar"}
-</button>
+                type="button"
+                onClick={handleConsultarPatente}
+                disabled={consultandoPatente}
+                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 text-white hover:bg-blue-700 transition disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {consultandoPatente && (
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                )}
+                {consultandoPatente ? "Consultando..." : "Consultar"}
+              </button>
 
             </div>
 
@@ -620,68 +660,66 @@ const riesgoOptions = [
         )}
 
       </section>
-       <div className="flex justify-center pt-4">
-
-  <button
-    type="submit"
-    disabled={guardandoLead}
-    className="rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition btn-primary px-4 py-3 shadow-lg hover:scale-[1.02] flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-  >
-
-    {guardandoLead && (
-      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-    )}
-
-    {guardandoLead ? "Guardando..." : "Guardar Lead"}
-
-  </button>
-  {toast.open && (
-  <div className="fixed right-5 top-5 z-50 w-full max-w-sm animate-[slideIn_.25s_ease-out]">
-    <div
-      className={`rounded-2xl border bg-white p-4 shadow-2xl ${
-        toast.type === "success"
-          ? "border-(--color-accent)"
-          : "border-red-300"
-      }`}
-    >
-      <div className="flex items-start gap-3">
-        <div
-          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white ${
-            toast.type === "success"
-              ? "bg-(--color-brand)"
-              : "bg-red-500"
-          }`}
-        >
-          {toast.type === "success" ? "✓" : "!"}
-        </div>
-
-        <div className="flex-1">
-          <h3 className="text-sm font-bold text-(--color-primary-dark)">
-            {toast.title}
-          </h3>
-          <p className="mt-1 text-sm text-slate-600">
-            {toast.message}
-          </p>
-        </div>
+      <div className="flex justify-center pt-4">
 
         <button
-          type="button"
-          onClick={() =>
-            setToast((prev) => ({
-              ...prev,
-              open: false,
-            }))
-          }
-          className="text-slate-400 transition hover:text-slate-600"
+          type="submit"
+          disabled={guardandoLead}
+          className="rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition btn-primary px-4 py-3 shadow-lg hover:scale-[1.02] flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          ✕
-        </button>
-      </div>
-    </div>
-  </div>
-)}
 
-</div>
+          {guardandoLead && (
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+          )}
+
+          {guardandoLead ? "Guardando..." : "Guardar Lead"}
+
+        </button>
+        {toast.open && (
+          <div className="fixed right-5 top-5 z-50 w-full max-w-sm animate-[slideIn_.25s_ease-out]">
+            <div
+              className={`rounded-2xl border bg-white p-4 shadow-2xl ${toast.type === "success"
+                  ? "border-(--color-accent)"
+                  : "border-red-300"
+                }`}
+            >
+              <div className="flex items-start gap-3">
+                <div
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white ${toast.type === "success"
+                      ? "bg-(--color-brand)"
+                      : "bg-red-500"
+                    }`}
+                >
+                  {toast.type === "success" ? "✓" : "!"}
+                </div>
+
+                <div className="flex-1">
+                  <h3 className="text-sm font-bold text-(--color-primary-dark)">
+                    {toast.title}
+                  </h3>
+                  <p className="mt-1 text-sm text-slate-600">
+                    {toast.message}
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setToast((prev) => ({
+                      ...prev,
+                      open: false,
+                    }))
+                  }
+                  className="text-slate-400 transition hover:text-slate-600"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
     </form>
 
   );

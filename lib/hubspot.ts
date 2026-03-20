@@ -25,21 +25,48 @@ function cleanProperties(obj: Record<string, any>) {
   );
 }
 
-export async function upsertHubspotLead(data: any) {
+// Upsert contacto — solo datos de la persona
+export async function upsertContacto(data: any) {
   const email = (data.email || "").trim().toLowerCase();
-
-  if (!email) {
-    throw new Error("El email es obligatorio para enviar a HubSpot");
-  }
+  if (!email) throw new Error("El email es obligatorio");
 
   const properties = cleanProperties({
     email,
-    firstname: data.nombreCompleto,
-    date_of_birth:data.fechaNacimiento,
+    firstname: data.nombre,
+    lastname: data.apellido,
+    date_of_birth: data.fechaNacimiento,
     country: data.provincia,
     city: data.localidad,
     zip: data.codigoPostal,
     phone: data.celular,
+    hubspot_owner_id: data.vendedor,
+    productor_agencia: data.productorAgencia,
+    esreferido: toHubspotBoolean(data.esReferido),
+    lead_source: "Formulario Web",
+  });
+
+  const response = await client.apiRequest({
+    method: "POST",
+    path: "/crm/v3/objects/contacts/batch/upsert",
+    body: {
+      inputs: [{ id: email, idProperty: "email", properties }],
+    },
+  });
+
+  const result = await response.json();
+  const contacto = result?.results?.[0];
+  if (!contacto?.id) throw new Error(`Error upsert contacto: ${JSON.stringify(result)}`);
+  
+  return contacto;
+}
+
+// Crear deal — siempre nuevo, asociado al contacto
+export async function crearDeal(data: any, contactoId: string) {
+  const properties = cleanProperties({
+    dealname: `${data.nombre} ${data.apellido} - ${data.riesgo}`,
+    pipeline: "default",
+    dealstage: "appointmentscheduled", 
+    hubspot_owner_id: data.vendedor,
     riesgo: data.riesgo,
     patente: data.patente?.toUpperCase(),
     marca: data.marca,
@@ -51,36 +78,30 @@ export async function upsertHubspotLead(data: any) {
     es_0km: toHubspotBoolean(data.es0km),
     es_prendado: toHubspotBoolean(data.esPrendado),
     fecha_fin_prenda: toHubspotDate(data.fechaFinPrenda),
-    vendedor: data.vendedor,
-    productor_agencia: data.productorAgencia,
   });
-
-  console.log("PROPERTIES A ENVIAR:", properties);
 
   const response = await client.apiRequest({
     method: "POST",
-    path: "/crm/v3/objects/contacts/batch/upsert",
+    path: "/crm/v3/objects/deals",
     body: {
-      inputs: [
+      properties,
+      associations: [
         {
-          id: email,
-          idProperty: "email",
-          properties,
+          to: { id: contactoId },
+          types: [{ associationCategory: "HUBSPOT_DEFINED", associationTypeId: 3 }],
         },
       ],
     },
   });
 
-  const result = await response.json();
-  console.log("RESPUESTA UPSERT HUBSPOT:", result);
+  const deal = await response.json();
+  if (!deal?.id) throw new Error(`Error crear deal: ${JSON.stringify(deal)}`);
 
-  const createdOrUpdated = result?.results?.[0];
+  return deal;
+}
 
-  if (!createdOrUpdated?.id) {
-    throw new Error(
-      `HubSpot no devolvió un id válido: ${JSON.stringify(result)}`
-    );
-  }
-
-  return createdOrUpdated;
+export async function crearLeadYDeal(data: any) {
+  const contacto = await upsertContacto(data);
+  const deal = await crearDeal(data, contacto.id);
+  return { contacto, deal };
 }

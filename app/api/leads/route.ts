@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
-import { upsertHubspotLead } from "@/lib/hubspot";
+import { crearLeadYDeal } from "@/lib/hubspot"; // 👈 cambia el import
+
+// ... validarLead no cambia
 
 function validarLead(data: any) {
   const errores: string[] = [];
 
-  if (!data.nombreCompleto?.trim()) errores.push("nombreCompleto es obligatorio");
+  if (!data.nombre?.trim()) errores.push("nombre es obligatorio");
+  if (!data.apellido?.trim()) errores.push("apellido es obligatorio");
   if (!data.provincia?.trim()) errores.push("provincia es obligatoria");
   if (!data.localidad?.trim()) errores.push("localidad es obligatoria");
   if (!data.codigoPostal?.trim()) errores.push("codigoPostal es obligatorio");
@@ -23,6 +26,7 @@ function validarLead(data: any) {
   return errores;
 }
 
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -32,24 +36,22 @@ export async function POST(req: Request) {
 
     if (errores.length > 0) {
       console.log("ERRORES VALIDACION:", errores);
-
       return NextResponse.json(
-        {
-          success: false,
-          error: "Validación fallida",
-          details: errores,
-        },
+        { success: false, error: "Validación fallida", details: errores },
         { status: 400 }
       );
     }
 
-    const hubspotResult = await upsertHubspotLead(body);
-    console.log("RESPUESTA HUBSPOT:", hubspotResult);
+    const { contacto, deal } = await crearLeadYDeal(body); // 👈 desestructurás ambos
+    console.log("CONTACTO HUBSPOT:", contacto);
+    console.log("DEAL HUBSPOT:", deal);
 
     return NextResponse.json({
       success: true,
-      hubspotId: hubspotResult?.id ?? null,
+      hubspotContactoId: contacto?.id ?? null,
+      hubspotDealId: deal?.id ?? null,
     });
+
   } catch (error: any) {
     console.error("ERROR EN /api/leads:", error);
     console.error("ERROR DETALLE:", error?.response?.body || error?.message || error);
