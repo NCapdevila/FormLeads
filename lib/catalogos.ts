@@ -5,7 +5,7 @@ export const vendedores = [
 ];
 
 export const productores = [
-  { value: "p1", label: "Ardama" },
-  { value: "p2", label: "Liv Motors" },
-  { value: "p3", label: "Car West" },
+  { value: "Ardama", label: "Ardama" },
+  { value: "Liv Motors", label: "Liv Motors" },
+  { value: "Car West", label: "Car West" },
 ];

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { upsertHubspotLead } from "@/lib/hubspot";
 
 function validarLead(data: any) {
   const errores: string[] = [];
@@ -25,10 +26,13 @@ function validarLead(data: any) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    console.log("BODY RECIBIDO:", body);
 
     const errores = validarLead(body);
 
     if (errores.length > 0) {
+      console.log("ERRORES VALIDACION:", errores);
+
       return NextResponse.json(
         {
           success: false,
@@ -39,28 +43,22 @@ export async function POST(req: Request) {
       );
     }
 
-    const webhookUrl = process.env.GOOGLE_SHEET_WEBHOOK_URL || "no encontrada";
-
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-      redirect: "follow",
-    });
-
-    const text = await response.text();
+    const hubspotResult = await upsertHubspotLead(body);
+    console.log("RESPUESTA HUBSPOT:", hubspotResult);
 
     return NextResponse.json({
-      success: response.ok,
-      googleResponse: text,
+      success: true,
+      hubspotId: hubspotResult?.id ?? null,
     });
-  } catch (error) {
+  } catch (error: any) {
+    console.error("ERROR EN /api/leads:", error);
+    console.error("ERROR DETALLE:", error?.response?.body || error?.message || error);
+
     return NextResponse.json(
       {
         success: false,
-        error: error instanceof Error ? error.message : "Error interno",
+        error: error?.message || "Error interno",
+        detail: error?.response?.body || null,
       },
       { status: 500 }
     );

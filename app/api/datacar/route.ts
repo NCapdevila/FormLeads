@@ -37,15 +37,15 @@ export async function POST(req: Request) {
       );
     }
 
-    const vehicle = result.data.id;
+    const vehicle = result.data;
 
     return NextResponse.json({
-      marca: vehicle.brand,
-      modelo: vehicle.model,
-      version: vehicle.type,
-      anio: vehicle.year,
-      motor: "",
-      chasis: "",
+      marca: vehicle.id.brand,
+      modelo: vehicle.id.model,
+      version: vehicle.id.type,
+      anio: vehicle.id.year,
+      motor: vehicle.num?.engine,
+      chasis: vehicle.num?.chassis,
     });
   } catch (error) {
     return NextResponse.json(

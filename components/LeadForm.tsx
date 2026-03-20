@@ -62,6 +62,8 @@ const showToast = (
     modelo: "",
     version: "",
     anio: "",
+    motor: "",
+    chasis: "",
     es0km: false,
     esPrendado: false,
     fechaFinPrenda: "",
@@ -80,6 +82,8 @@ const showToast = (
   modelo: "",
   version: "",
   anio: "",
+  motor: "",
+  chasis: "",
   es0km: false,
   esPrendado: false,
   fechaFinPrenda: "",
@@ -201,6 +205,8 @@ const irAlPrimerError = (nuevosErrores: Record<string, string>) => {
       nextErrors.modelo = "";
       nextErrors.version = "";
       nextErrors.anio = "";
+      nextErrors.motor = "";
+      nextErrors.chasis = "";
       nextErrors.fechaFinPrenda = "";
     }
 
@@ -224,6 +230,9 @@ const irAlPrimerError = (nuevosErrores: Record<string, string>) => {
       modelo: data.modelo || "",
       version: data.version || "",
       anio: data.anio || "",
+      motor: data.motor || "",
+      chasis : data.chasis || "",
+
     }));
   } catch (error) {
     alert("No se pudo consultar la patente");
@@ -296,6 +305,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       modelo: "",
       version: "",
       anio: "",
+      motor: "",
+      chasis: "",
       es0km: false,
       esPrendado: false,
       fechaFinPrenda: "",
@@ -540,6 +551,22 @@ const riesgoOptions = [
                 name="anio"
                 placeholder="Año"
                 value={formData.anio}
+                onChange={handleChange}
+                className="input"
+              />
+
+              <input
+                name="motor"
+                placeholder="Motor"
+                value={formData.motor}
+                onChange={handleChange}
+                className="input"
+              />
+
+              <input
+                name="chasis"
+                placeholder="Chasis"
+                value={formData.chasis}
                 onChange={handleChange}
                 className="input"
               />
