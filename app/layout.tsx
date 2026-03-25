@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Urbanist } from "next/font/google";
 import "./globals.css";
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3'
+import RecaptchaProvider from "@/components/RecaptchaProvider"; // ✅
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -21,9 +21,9 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${urbanist.variable} antialiased`}>
-        <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}>
+        <RecaptchaProvider>
           {children}
-        </GoogleReCaptchaProvider>
+        </RecaptchaProvider>
       </body>
     </html>
   );
