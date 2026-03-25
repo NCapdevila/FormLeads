@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import {
   User,
   MapPin,
@@ -12,9 +12,11 @@ import SearchSelect from "@/components/SearchSelect";
 import { vendedores } from "@/lib/vendedores";
 import { productores } from "@/lib/productores";
 import { consultarPatente } from "@/lib/datacar";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 
 export default function LeadForm() {
+  const { executeRecaptcha } = useGoogleReCaptcha()
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [consultandoPatente, setConsultandoPatente] = useState(false);
   const [guardandoLead, setGuardandoLead] = useState(false);
@@ -263,97 +265,80 @@ export default function LeadForm() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const nuevosErrores = validarFormulario();
+  const nuevosErrores = validarFormulario();
 
-    if (Object.keys(nuevosErrores).length > 0) {
-  const primerError = Object.values(nuevosErrores)[0];
+  if (Object.keys(nuevosErrores).length > 0) {
+    const primerError = Object.values(nuevosErrores)[0];
+    showToast("error", "Revisá el formulario", primerError);
+    irAlPrimerError(nuevosErrores);
+    return;
+  }
 
-  showToast(
-    "error",
-    "Revisá el formulario",
-    primerError
-  );
+  // ✅ NUEVO: verificar captcha antes de intentar guardar
+  if (!executeRecaptcha) {
+    showToast("error", "Error de seguridad", "Recargá la página e intentá de nuevo");
+    return;
+  }
+  const captchaToken = await executeRecaptcha("submit_lead");
 
-  irAlPrimerError(nuevosErrores);
-  return;
-}
+  try {
+    setGuardandoLead(true);
 
-    try {
-      setGuardandoLead(true);
+    const response = await fetch("/api/leads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...formData, captchaToken }), // ✅ agregás el token
+    });
 
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    const result = await response.json();
 
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        console.error(result);
-
-        const backendMessage =
-          Array.isArray(result?.details) && result.details.length > 0
-            ? result.details[0]
-            : result?.error || "Ocurrió un problema al guardar el lead.";
-
-        showToast(
-          "error",
-          "No se pudo guardar",
-          backendMessage
-        );
-        return;
-      }
-
-      showToast(
-        "success",
-        "Lead guardado",
-        "El lead se guardó correctamente."
-      );
-
-      setFormData({
-        nombre: "",
-        apellido: "",
-        fechaNacimiento: "",
-        provincia: "",
-        localidad: "",
-        codigoPostal: "",
-        email: "",
-        celular: "",
-        riesgo: "",
-        patente: "",
-        marca: "",
-        modelo: "",
-        version: "",
-        anio: "",
-        motor: "",
-        chasis: "",
-        es0km: false,
-        esPrendado: false,
-        fechaFinPrenda: "",
-        vendedor: "",
-        productorAgencia: "",
-        esReferido: false,
-
-      });
-
-      setErrors({});
-    } catch (error) {
-      console.error(error);
-
-      showToast(
-        "error",
-        "Error inesperado",
-        "Hubo un error al intentar guardar el lead."
-      );
-    } finally {
-      setGuardandoLead(false);
+    if (!response.ok || !result.success) {
+      console.error(result);
+      const backendMessage =
+        Array.isArray(result?.details) && result.details.length > 0
+          ? result.details[0]
+          : result?.error || "Ocurrió un problema al guardar el lead.";
+      showToast("error", "No se pudo guardar", backendMessage);
+      return;
     }
-  };
+
+    showToast("success", "Lead guardado", "El lead se guardó correctamente.");
+
+    setFormData({
+      nombre: "",
+      apellido: "",
+      fechaNacimiento: "",
+      provincia: "",
+      localidad: "",
+      codigoPostal: "",
+      email: "",
+      celular: "",
+      riesgo: "",
+      patente: "",
+      marca: "",
+      modelo: "",
+      version: "",
+      anio: "",
+      motor: "",
+      chasis: "",
+      es0km: false,
+      esPrendado: false,
+      fechaFinPrenda: "",
+      vendedor: "",
+      productorAgencia: "",
+      esReferido: false,
+    });
+
+    setErrors({});
+  } catch (error) {
+    console.error(error);
+    showToast("error", "Error inesperado", "Hubo un error al intentar guardar el lead.");
+  } finally {
+    setGuardandoLead(false);
+  }
+};
 
   const riesgoOptions = [
     { value: "AUTO", label: "Auto" },

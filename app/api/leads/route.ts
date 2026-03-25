@@ -6,13 +6,11 @@ function toTitleCase(value?: string) {
   return value.trim().toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-
 function forceMobileAR(phone?: string) {
   if (!phone) return undefined;
 
   let clean = phone.replace(/\D/g, "");
 
-  // si ya tiene +54 o 549 → no duplicar
   if (clean.startsWith("549")) return `+${clean}`;
   if (clean.startsWith("54")) return `+${clean}`;
 
@@ -56,9 +54,30 @@ function validarLead(data: any) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    console.log("BODY RECIBIDO:", body);
+    const { captchaToken, ...data } = body;
 
-    const errores = validarLead(body);
+    // Verificación reCAPTCHA v3
+    const verify = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      body: new URLSearchParams({
+        secret: process.env.RECAPTCHA_SECRET_KEY!,
+        response: captchaToken ?? "",
+      }),
+    });
+
+    const { success, score } = await verify.json();
+    console.log("CAPTCHA:", { success, score });
+
+    if (!success || score < 0.5) {
+      return NextResponse.json(
+        { success: false, error: "Verificación de seguridad fallida" },
+        { status: 400 }
+      );
+    }
+
+    console.log("BODY RECIBIDO:", data);
+
+    const errores = validarLead(data);
     if (errores.length > 0) {
       console.log("ERRORES VALIDACION:", errores);
       return NextResponse.json(
@@ -67,7 +86,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const normalizado = normalizarDatos(body);
+    const normalizado = normalizarDatos(data);
     console.log("BODY NORMALIZADO:", normalizado);
 
     const { contacto, deal } = await crearLeadYDeal(normalizado);
