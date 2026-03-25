@@ -97,65 +97,65 @@ export default function LeadForm() {
   });
 
   const validarFormulario = () => {
-  const nuevosErrores: Record<string, string> = {};
+    const nuevosErrores: Record<string, string> = {};
 
-  const limpiarTelefono = (tel: string) => tel.replace(/\D/g, "");
+    const limpiarTelefono = (tel: string) => tel.replace(/\D/g, "");
 
-  if (!formData.nombre.trim()) {
-    nuevosErrores.nombre = "Ingresá el nombre";
-  }
-
-  if (!formData.apellido.trim()) {
-    nuevosErrores.apellido = "Ingresá el apellido";
-  }
-
-  if (!formData.provincia.trim()) {
-    nuevosErrores.provincia = "Ingresá la provincia";
-  }
-
-  if (!formData.localidad.trim()) {
-    nuevosErrores.localidad = "Ingresá la localidad";
-  }
-
-  if (!formData.codigoPostal.trim()) {
-    nuevosErrores.codigoPostal = "Ingresá el código postal";
-  }
-
-  if (!formData.riesgo.trim()) {
-    nuevosErrores.riesgo = "Seleccioná el riesgo";
-  }
-
-  if (!formData.vendedor.trim()) {
-    nuevosErrores.vendedor = "Seleccioná un vendedor";
-  }
-
-  if (!formData.productorAgencia.trim()) {
-    nuevosErrores.productorAgencia = "Seleccioná productor o agencia";
-  }
-
-  // 🔥 Validación combinada email / celular
-  if (!formData.email.trim() && !formData.celular.trim()) {
-    nuevosErrores.email = "Ingresá email o celular";
-    nuevosErrores.celular = "Ingresá email o celular";
-  }
-
-  // 🚫 Validación celular (NO empezar con 15)
-  if (formData.celular.trim()) {
-    const celularLimpio = limpiarTelefono(formData.celular);
-
-    if (celularLimpio.startsWith("15")) {
-      nuevosErrores.celular = "El celular no debe empezar con 15";
+    if (!formData.nombre.trim()) {
+      nuevosErrores.nombre = "Ingresá el nombre";
     }
-  }
 
-  if (formData.esPrendado && !formData.fechaFinPrenda.trim()) {
-    nuevosErrores.fechaFinPrenda = "Ingresá la fecha fin de prenda";
-  }
+    if (!formData.apellido.trim()) {
+      nuevosErrores.apellido = "Ingresá el apellido";
+    }
 
-  setErrors(nuevosErrores);
+    if (!formData.provincia.trim()) {
+      nuevosErrores.provincia = "Ingresá la provincia";
+    }
 
-  return nuevosErrores;
-};
+    if (!formData.localidad.trim()) {
+      nuevosErrores.localidad = "Ingresá la localidad";
+    }
+
+    if (!formData.codigoPostal.trim()) {
+      nuevosErrores.codigoPostal = "Ingresá el código postal";
+    }
+
+    if (!formData.riesgo.trim()) {
+      nuevosErrores.riesgo = "Seleccioná el riesgo";
+    }
+
+    if (!formData.vendedor.trim()) {
+      nuevosErrores.vendedor = "Seleccioná un vendedor";
+    }
+
+    if (!formData.productorAgencia.trim()) {
+      nuevosErrores.productorAgencia = "Seleccioná productor o agencia";
+    }
+
+    // 🔥 Validación combinada email / celular
+    if (!formData.email.trim() && !formData.celular.trim()) {
+      nuevosErrores.email = "Ingresá email o celular";
+      nuevosErrores.celular = "Ingresá email o celular";
+    }
+
+    // 🚫 Validación celular (NO empezar con 15)
+    if (formData.celular.trim()) {
+      const celularLimpio = limpiarTelefono(formData.celular);
+
+      if (celularLimpio.startsWith("15")) {
+        nuevosErrores.celular = "El celular no debe empezar con 15";
+      }
+    }
+
+    if (formData.esPrendado && !formData.fechaFinPrenda.trim()) {
+      nuevosErrores.fechaFinPrenda = "Ingresá la fecha fin de prenda";
+    }
+
+    setErrors(nuevosErrores);
+
+    return nuevosErrores;
+  };
 
   const irAlPrimerError = (nuevosErrores: Record<string, string>) => {
     const primerCampo = Object.keys(nuevosErrores)[0];
@@ -265,80 +265,80 @@ export default function LeadForm() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const nuevosErrores = validarFormulario();
+    const nuevosErrores = validarFormulario();
 
-  if (Object.keys(nuevosErrores).length > 0) {
-    const primerError = Object.values(nuevosErrores)[0];
-    showToast("error", "Revisá el formulario", primerError);
-    irAlPrimerError(nuevosErrores);
-    return;
-  }
-
-  // ✅ NUEVO: verificar captcha antes de intentar guardar
-  if (!executeRecaptcha) {
-    showToast("error", "Error de seguridad", "Recargá la página e intentá de nuevo");
-    return;
-  }
-  const captchaToken = await executeRecaptcha("submit_lead");
-
-  try {
-    setGuardandoLead(true);
-
-    const response = await fetch("/api/leads", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...formData, captchaToken }), // ✅ agregás el token
-    });
-
-    const result = await response.json();
-
-    if (!response.ok || !result.success) {
-      console.error(result);
-      const backendMessage =
-        Array.isArray(result?.details) && result.details.length > 0
-          ? result.details[0]
-          : result?.error || "Ocurrió un problema al guardar el lead.";
-      showToast("error", "No se pudo guardar", backendMessage);
+    if (Object.keys(nuevosErrores).length > 0) {
+      const primerError = Object.values(nuevosErrores)[0];
+      showToast("error", "Revisá el formulario", primerError);
+      irAlPrimerError(nuevosErrores);
       return;
     }
 
-    showToast("success", "Lead guardado", "El lead se guardó correctamente.");
+    // ✅ NUEVO: verificar captcha antes de intentar guardar
+    if (!executeRecaptcha) {
+      showToast("error", "Error de seguridad", "Recargá la página e intentá de nuevo");
+      return;
+    }
+    const captchaToken = await executeRecaptcha("submit_lead");
 
-    setFormData({
-      nombre: "",
-      apellido: "",
-      fechaNacimiento: "",
-      provincia: "",
-      localidad: "",
-      codigoPostal: "",
-      email: "",
-      celular: "",
-      riesgo: "",
-      patente: "",
-      marca: "",
-      modelo: "",
-      version: "",
-      anio: "",
-      motor: "",
-      chasis: "",
-      es0km: false,
-      esPrendado: false,
-      fechaFinPrenda: "",
-      vendedor: "",
-      productorAgencia: "",
-      esReferido: false,
-    });
+    try {
+      setGuardandoLead(true);
 
-    setErrors({});
-  } catch (error) {
-    console.error(error);
-    showToast("error", "Error inesperado", "Hubo un error al intentar guardar el lead.");
-  } finally {
-    setGuardandoLead(false);
-  }
-};
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, captchaToken }), // ✅ agregás el token
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        console.error(result);
+        const backendMessage =
+          Array.isArray(result?.details) && result.details.length > 0
+            ? result.details[0]
+            : result?.error || "Ocurrió un problema al guardar el lead.";
+        showToast("error", "No se pudo guardar", backendMessage);
+        return;
+      }
+
+      showToast("success", "Lead guardado", "El lead se guardó correctamente.");
+
+      setFormData({
+        nombre: "",
+        apellido: "",
+        fechaNacimiento: "",
+        provincia: "",
+        localidad: "",
+        codigoPostal: "",
+        email: "",
+        celular: "",
+        riesgo: "",
+        patente: "",
+        marca: "",
+        modelo: "",
+        version: "",
+        anio: "",
+        motor: "",
+        chasis: "",
+        es0km: false,
+        esPrendado: false,
+        fechaFinPrenda: "",
+        vendedor: "",
+        productorAgencia: "",
+        esReferido: false,
+      });
+
+      setErrors({});
+    } catch (error) {
+      console.error(error);
+      showToast("error", "Error inesperado", "Hubo un error al intentar guardar el lead.");
+    } finally {
+      setGuardandoLead(false);
+    }
+  };
 
   const riesgoOptions = [
     { value: "AUTO", label: "Auto" },
@@ -674,19 +674,20 @@ export default function LeadForm() {
           {guardandoLead ? "Guardando..." : "Guardar Lead"}
 
         </button>
+
         {toast.open && (
           <div className="fixed right-5 top-5 z-50 w-full max-w-sm animate-[slideIn_.25s_ease-out]">
             <div
               className={`rounded-2xl border bg-white p-4 shadow-2xl ${toast.type === "success"
-                  ? "border-(--color-accent)"
-                  : "border-red-300"
+                ? "border-(--color-accent)"
+                : "border-red-300"
                 }`}
             >
               <div className="flex items-start gap-3">
                 <div
                   className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white ${toast.type === "success"
-                      ? "bg-(--color-brand)"
-                      : "bg-red-500"
+                    ? "bg-(--color-brand)"
+                    : "bg-red-500"
                     }`}
                 >
                   {toast.type === "success" ? "✓" : "!"}
@@ -719,6 +720,18 @@ export default function LeadForm() {
         )}
 
       </div>
+
+      <p className="text-center text-xs text-gray-400 mt-4">
+        Este sitio está protegido por reCAPTCHA y se aplican la{" "}
+        <a href="https://policies.google.com/privacy" target="_blank" className="underline hover:text-gray-600">
+          Política de Privacidad
+        </a>
+        {" "}y los{" "}
+        <a href="https://policies.google.com/terms" target="_blank" className="underline hover:text-gray-600">
+          Términos de Servicio
+        </a>
+        {" "}de Google.
+      </p>
     </form>
 
   );
