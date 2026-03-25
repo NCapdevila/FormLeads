@@ -95,54 +95,65 @@ export default function LeadForm() {
   });
 
   const validarFormulario = () => {
-    const nuevosErrores: Record<string, string> = {};
+  const nuevosErrores: Record<string, string> = {};
 
-    if (!formData.nombre.trim()) {
-      nuevosErrores.nombre = "Ingresá el nombre";
+  const limpiarTelefono = (tel: string) => tel.replace(/\D/g, "");
+
+  if (!formData.nombre.trim()) {
+    nuevosErrores.nombre = "Ingresá el nombre";
+  }
+
+  if (!formData.apellido.trim()) {
+    nuevosErrores.apellido = "Ingresá el apellido";
+  }
+
+  if (!formData.provincia.trim()) {
+    nuevosErrores.provincia = "Ingresá la provincia";
+  }
+
+  if (!formData.localidad.trim()) {
+    nuevosErrores.localidad = "Ingresá la localidad";
+  }
+
+  if (!formData.codigoPostal.trim()) {
+    nuevosErrores.codigoPostal = "Ingresá el código postal";
+  }
+
+  if (!formData.riesgo.trim()) {
+    nuevosErrores.riesgo = "Seleccioná el riesgo";
+  }
+
+  if (!formData.vendedor.trim()) {
+    nuevosErrores.vendedor = "Seleccioná un vendedor";
+  }
+
+  if (!formData.productorAgencia.trim()) {
+    nuevosErrores.productorAgencia = "Seleccioná productor o agencia";
+  }
+
+  // 🔥 Validación combinada email / celular
+  if (!formData.email.trim() && !formData.celular.trim()) {
+    nuevosErrores.email = "Ingresá email o celular";
+    nuevosErrores.celular = "Ingresá email o celular";
+  }
+
+  // 🚫 Validación celular (NO empezar con 15)
+  if (formData.celular.trim()) {
+    const celularLimpio = limpiarTelefono(formData.celular);
+
+    if (celularLimpio.startsWith("15")) {
+      nuevosErrores.celular = "El celular no debe empezar con 15";
     }
+  }
 
-    if (!formData.apellido.trim()) {
-      nuevosErrores.apellido = "Ingresá el apellido";
-    }
+  if (formData.esPrendado && !formData.fechaFinPrenda.trim()) {
+    nuevosErrores.fechaFinPrenda = "Ingresá la fecha fin de prenda";
+  }
 
-    if (!formData.provincia.trim()) {
-      nuevosErrores.provincia = "Ingresá la provincia";
-    }
+  setErrors(nuevosErrores);
 
-    if (!formData.localidad.trim()) {
-      nuevosErrores.localidad = "Ingresá la localidad";
-    }
-
-    if (!formData.codigoPostal.trim()) {
-      nuevosErrores.codigoPostal = "Ingresá el código postal";
-    }
-
-    if (!formData.riesgo.trim()) {
-      nuevosErrores.riesgo = "Seleccioná el riesgo";
-    }
-
-    if (!formData.vendedor.trim()) {
-      nuevosErrores.vendedor = "Seleccioná un vendedor";
-    }
-
-    if (!formData.productorAgencia.trim()) {
-      nuevosErrores.productorAgencia = "Seleccioná productor o agencia";
-    }
-
-
-    if (!formData.email.trim() && !formData.celular.trim()) {
-      nuevosErrores.email = "Ingresá email o celular";
-      nuevosErrores.celular = "Ingresá email o celular";
-    }
-
-    if (formData.esPrendado && !formData.fechaFinPrenda.trim()) {
-      nuevosErrores.fechaFinPrenda = "Ingresá la fecha fin de prenda";
-    }
-
-    setErrors(nuevosErrores);
-
-    return nuevosErrores;
-  };
+  return nuevosErrores;
+};
 
   const irAlPrimerError = (nuevosErrores: Record<string, string>) => {
     const primerCampo = Object.keys(nuevosErrores)[0];
@@ -257,14 +268,17 @@ export default function LeadForm() {
     const nuevosErrores = validarFormulario();
 
     if (Object.keys(nuevosErrores).length > 0) {
-      showToast(
-        "error",
-        "Revisá el formulario",
-        "Hay campos obligatorios sin completar."
-      );
-      irAlPrimerError(nuevosErrores);
-      return;
-    }
+  const primerError = Object.values(nuevosErrores)[0];
+
+  showToast(
+    "error",
+    "Revisá el formulario",
+    primerError
+  );
+
+  irAlPrimerError(nuevosErrores);
+  return;
+}
 
     try {
       setGuardandoLead(true);

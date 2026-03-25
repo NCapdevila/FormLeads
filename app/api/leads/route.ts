@@ -1,7 +1,34 @@
 import { NextResponse } from "next/server";
-import { crearLeadYDeal } from "@/lib/hubspot"; // 👈 cambia el import
+import { crearLeadYDeal } from "@/lib/hubspot";
 
-// ... validarLead no cambia
+function toTitleCase(value?: string) {
+  if (!value) return undefined;
+  return value.trim().toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+
+function forceMobileAR(phone?: string) {
+  if (!phone) return undefined;
+
+  let clean = phone.replace(/\D/g, "");
+
+  // si ya tiene +54 o 549 → no duplicar
+  if (clean.startsWith("549")) return `+${clean}`;
+  if (clean.startsWith("54")) return `+${clean}`;
+
+  return `+54${clean}`;
+}
+
+function normalizarDatos(data: any) {
+  return {
+    ...data,
+    nombre: toTitleCase(data.nombre),
+    apellido: toTitleCase(data.apellido),
+    provincia: toTitleCase(data.provincia),
+    localidad: toTitleCase(data.localidad),
+    celular: forceMobileAR(data.celular),
+  };
+}
 
 function validarLead(data: any) {
   const errores: string[] = [];
@@ -26,14 +53,12 @@ function validarLead(data: any) {
   return errores;
 }
 
-
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     console.log("BODY RECIBIDO:", body);
 
     const errores = validarLead(body);
-
     if (errores.length > 0) {
       console.log("ERRORES VALIDACION:", errores);
       return NextResponse.json(
@@ -42,7 +67,10 @@ export async function POST(req: Request) {
       );
     }
 
-    const { contacto, deal } = await crearLeadYDeal(body); // 👈 desestructurás ambos
+    const normalizado = normalizarDatos(body);
+    console.log("BODY NORMALIZADO:", normalizado);
+
+    const { contacto, deal } = await crearLeadYDeal(normalizado);
     console.log("CONTACTO HUBSPOT:", contacto);
     console.log("DEAL HUBSPOT:", deal);
 

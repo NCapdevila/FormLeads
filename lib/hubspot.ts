@@ -41,7 +41,8 @@ export async function upsertContacto(data: any) {
     phone: data.celular,
     hubspot_owner_id: data.vendedor,
     productor_agencia: data.productorAgencia,
-    esreferido: toHubspotBoolean(data.esReferido),
+    es_referido: toHubspotBoolean(data.esReferido),
+    lifecyclestage: "lead",
     lead_source: "Formulario Web",
   });
 
@@ -64,15 +65,15 @@ export async function upsertContacto(data: any) {
 export async function crearDeal(data: any, contactoId: string) {
   const properties = cleanProperties({
     dealname: `${data.nombre} ${data.apellido} - ${data.riesgo}`,
-    pipeline: "default",
+    pipeline: "default", 
     dealstage: "appointmentscheduled", 
     hubspot_owner_id: data.vendedor,
-    riesgo: data.riesgo,
-    patente: data.patente?.toUpperCase(),
-    marca: data.marca,
-    modelo: data.modelo,
-    version: data.version,
-    anio: data.anio ? String(data.anio) : undefined,
+    tipo_riesgo: data.riesgo,
+    patente_vehiculo: data.patente?.toUpperCase(),
+    marca_vehiculo: data.marca,
+    modelo_vehiculo: data.modelo,
+    version_vehiculo: data.version,
+    anio_vehiculo: data.anio ? String(data.anio) : undefined,
     numero_motor: data.motor,
     numero_chasis: data.chasis,
     es_0km: toHubspotBoolean(data.es0km),
