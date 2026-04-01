@@ -65,7 +65,7 @@ export async function upsertContacto(data: any) {
 // Crear deal — siempre nuevo, asociado al contacto
 export async function crearDeal(data: any, contactoId: string) {
   const properties = cleanProperties({
-    dealname: `${data.nombre} ${data.apellido} - ${data.riesgo}`,
+    dealname: `${data.productorAgencia} - ${data.riesgo} - ${data.nombre} ${data.apellido} `,
     pipeline: "default", 
     dealstage: "appointmentscheduled", 
     hubspot_owner_id: data.vendedor,
