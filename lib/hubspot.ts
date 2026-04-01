@@ -66,8 +66,8 @@ export async function upsertContacto(data: any) {
 export async function crearDeal(data: any, contactoId: string) {
   const properties = cleanProperties({
     dealname: `${data.productorAgencia} - ${data.riesgo} - ${data.nombre} ${data.apellido} `,
-    pipeline: "default", 
-    dealstage: "appointmentscheduled", 
+    pipeline: "886201234", 
+    dealstage: "1333717761",
     hubspot_owner_id: data.vendedor,
     tipo_riesgo: data.riesgo,
     patente_vehiculo: data.patente?.toUpperCase(),
