@@ -24,7 +24,7 @@ export const vendedores = [
     "label": "FLINT, AGOSTINA"
   },
   {
-    "value": "GOMEZ, JIMENA MARICEL",
+    "value": "90352178",
     "label": "GOMEZ, JIMENA MARICEL"
   },
   {
@@ -40,11 +40,11 @@ export const vendedores = [
     "label": "IGLESIAS, GUSTAVO"
   },
   {
-    "value": "JEREZ, SANTIAGO",
+    "value": "90352180",
     "label": "JEREZ, SANTIAGO"
   },
   {
-    "value": "LEDESMA, LUISINA",
+    "value": "90352181",
     "label": "LEDESMA, LUISINA"
   },
   {
@@ -52,7 +52,7 @@ export const vendedores = [
     "label": "MAQUEIRA, SOL"
   },
   {
-    "value": "88961911",
+    "value": "90350892",
     "label": "MELENDEZ, JUAN"
   },
   {
@@ -72,7 +72,7 @@ export const vendedores = [
     "label": "RIVERA, MELINA"
   },
   {
-    "value": "ROJAS, MARIELA EVELIN",
+    "value": "90352182",
     "label": "ROJAS, MARIELA EVELIN"
   },
   {
@@ -92,7 +92,7 @@ export const vendedores = [
     "label": "GOZZA, GIULIANA"
   },
   {
-    "value": "SARALEGUI, CAROLINA",
+    "value": "90352183",
     "label": "SARALEGUI, CAROLINA"
   },
   {
@@ -108,8 +108,12 @@ export const vendedores = [
     "label": "DIAZ, FRANCO"
   },
   {
-    "value": "MARCATELLI, JACQUELINE",
+    "value": "90352184",
     "label": "MARCATELLI, JACQUELINE"
+  },
+  {
+    "value": "90352186",
+    "label": "SILVA, AILEN"
   }
 ];
 
