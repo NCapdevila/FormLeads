@@ -40,6 +40,7 @@ export async function upsertContacto(data: any) {
     city: data.localidad,
     zip: data.codigoPostal,
     phone: data.celular,
+    hs_whatsapp_phone_number: data.celular,
     hubspot_owner_id: data.vendedor,
     productor_agencia: data.productorAgencia,
     es_referido: toHubspotBoolean(data.esReferido),
