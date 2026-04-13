@@ -14,7 +14,7 @@ function forceMobileAR(phone?: string) {
   if (clean.startsWith("549")) return `+${clean}`;
   if (clean.startsWith("54")) return `+${clean}`;
 
-  return `+54${clean}`;
+  return `+549${clean}`;
 }
 
 function normalizarDatos(data: any) {
