@@ -491,7 +491,7 @@ export default function LeadForm() {
             }
           />
 
-          {formData.productorAgencia === "ARDAMA 2020 S.A." && (
+          {formData.productorAgencia === "Ardama" && (
             <label className="flex items-center gap-2">
               <input
                 type="checkbox"

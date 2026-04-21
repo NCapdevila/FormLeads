@@ -1,119 +1,119 @@
 export const vendedores = [
   {
+    "value": "",
+    "label": "Sin Vendedor"
+  },
+  {
     "value": "ARIGO, LUCAS",
-    "label": "ARIGO, LUCAS"
+    "label": "Lucas Arigo"
   },
   {
     "value": "BRANDO, IGNACIO",
-    "label": "BRANDO, IGNACIO"
+    "label": "Ignacio Brando"
   },
   {
     "value": "CARREA, CAMILA",
-    "label": "CARREA, CAMILA"
+    "label": "Camila Carrea"
   },
   {
     "value": "CHAUQUI, FLAVIA VERÓNICA",
-    "label": "CHAUQUI, FLAVIA VERÓNICA"
+    "label": "Flavia VeróNica Chauqui"
   },
   {
     "value": "DODERA, BRIAN",
-    "label": "DODERA, BRIAN"
+    "label": "Brian Dodera"
   },
   {
     "value": "FLINT, AGOSTINA",
-    "label": "FLINT, AGOSTINA"
+    "label": "Agostina Flint"
   },
   {
     "value": "90352178",
-    "label": "GOMEZ, JIMENA MARICEL"
+    "label": "Jimena Maricel Gomez"
   },
   {
     "value": "HERNANDEZ, VICTORIA",
-    "label": "HERNANDEZ, VICTORIA"
+    "label": "Victoria Hernandez"
   },
   {
     "value": "IGLESIAS, LAUTARO",
-    "label": "IGLESIAS, LAUTARO"
+    "label": "Lautaro Iglesias"
   },
   {
     "value": "IGLESIAS, GUSTAVO",
-    "label": "IGLESIAS, GUSTAVO"
+    "label": "Gustavo Iglesias"
   },
   {
     "value": "90352180",
-    "label": "JEREZ, SANTIAGO"
+    "label": "Santiago Jerez"
   },
   {
     "value": "90352181",
-    "label": "LEDESMA, LUISINA"
+    "label": "Luisina Ledesma"
   },
   {
     "value": "MAQUEIRA, SOL",
-    "label": "MAQUEIRA, SOL"
+    "label": "Sol Maqueira"
   },
   {
     "value": "90350892",
-    "label": "MELENDEZ, JUAN"
+    "label": "Juan Melendez"
   },
   {
     "value": "ORTIZ, NICOLAS",
-    "label": "ORTIZ, NICOLAS"
+    "label": "Nicolas Ortiz"
   },
   {
     "value": "PAEZ, FRANCO",
-    "label": "PAEZ, FRANCO"
+    "label": "Franco Paez"
   },
   {
     "value": "PELUSO, CAMILA",
-    "label": "PELUSO, CAMILA"
+    "label": "Camila Peluso"
   },
   {
     "value": "RIVERA, MELINA",
-    "label": "RIVERA, MELINA"
+    "label": "Melina Rivera"
   },
   {
     "value": "90352182",
-    "label": "ROJAS, MARIELA EVELIN"
-  },
-  {
-    "value": "RONCATI, MACARENA",
-    "label": "RONCATI, MACARENA"
+    "label": "Mariela Evelin Rojas"
   },
   {
     "value": "RONCATI, ANA LAURA",
-    "label": "RONCATI, ANA LAURA"
+    "label": "Ana Laura Roncati"
   },
   {
     "value": "URUEÑA, GIMENA",
-    "label": "URUEÑA, GIMENA"
+    "label": "Gimena UrueñA"
   },
   {
     "value": "GOZZA, GIULIANA",
-    "label": "GOZZA, GIULIANA"
+    "label": "Giuliana Gozza"
   },
   {
     "value": "90352183",
-    "label": "SARALEGUI, CAROLINA"
+    "label": "Carolina Saralegui"
   },
   {
     "value": "CAPARELLI, FIORELLA",
-    "label": "CAPARELLI, FIORELLA"
+    "label": "Fiorella Caparelli"
   },
   {
     "value": "SPIEGELMAN, TOMAS EZEQUIEL",
-    "label": "SPIEGELMAN, TOMAS EZEQUIEL"
+    "label": "Tomas Ezequiel Spiegelman"
   },
   {
     "value": "DIAZ, FRANCO",
-    "label": "DIAZ, FRANCO"
+    "label": "Franco Diaz"
   },
   {
     "value": "90352184",
-    "label": "MARCATELLI, JACQUELINE"
+    "label": "Jacqueline Marcatelli"
   },
   {
     "value": "90352186",
-    "label": "SILVA, AILEN"
+    "label": "Ailen Silva"
   }
 ];
 
