@@ -37,7 +37,6 @@ function validarLead(data: any) {
   if (!data.localidad?.trim()) errores.push("localidad es obligatoria");
   if (!data.codigoPostal?.trim()) errores.push("codigoPostal es obligatorio");
   if (!data.riesgo?.trim()) errores.push("riesgo es obligatorio");
-  if (!data.vendedor?.trim()) errores.push("vendedor es obligatorio");
   if (!data.productorAgencia?.trim()) errores.push("productorAgencia es obligatorio");
 
   if (!data.email?.trim() && !data.celular?.trim()) {
