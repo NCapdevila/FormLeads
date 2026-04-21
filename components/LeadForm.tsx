@@ -126,6 +126,7 @@ export default function LeadForm() {
     }
 
 
+
     if (!formData.productorAgencia.trim()) {
       nuevosErrores.productorAgencia = "Seleccioná productor o agencia";
     }
