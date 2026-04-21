@@ -1,5 +1,9 @@
 export const vendedores = [
   {
+    "value": "",
+    "label": "Sin Vendedor"
+  },
+  {
     "value": "ARIGO, LUCAS",
     "label": "Lucas Arigo"
   },
@@ -110,10 +114,6 @@ export const vendedores = [
   {
     "value": "90352186",
     "label": "Ailen Silva"
-  },
-  {
-    "value": "",
-    "label": "Sin Vendedor"
   },
 ];
 
