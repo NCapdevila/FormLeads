@@ -125,9 +125,6 @@ export default function LeadForm() {
       nuevosErrores.riesgo = "Seleccioná el riesgo";
     }
 
-    if (!formData.vendedor.trim()) {
-      nuevosErrores.vendedor = "Seleccioná un vendedor";
-    }
 
     if (!formData.productorAgencia.trim()) {
       nuevosErrores.productorAgencia = "Seleccioná productor o agencia";
