@@ -30,7 +30,8 @@ export default function SearchSelect({
 
   if (!mounted) return null;
 
-  const selected = options.find((o) => o.value === value) ?? null;
+  const selected =
+  value === "" ? null : options.find((o) => o.value === value) || null;
 
   return (
     <Select
