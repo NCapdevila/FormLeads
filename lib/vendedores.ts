@@ -16,11 +16,11 @@ export const vendedores = [
     "label": "Camila Carrea"
   },
   {
-    "value": "CHAUQUI, FLAVIA VERÓNICA",
+    "value": "91212800",
     "label": "Flavia VeróNica Chauqui"
   },
   {
-    "value": "DODERA, BRIAN",
+    "value": "91211714",
     "label": "Brian Dodera"
   },
   {
@@ -32,7 +32,7 @@ export const vendedores = [
     "label": "Jimena Maricel Gomez"
   },
   {
-    "value": "HERNANDEZ, VICTORIA",
+    "value": "91211733",
     "label": "Victoria Hernandez"
   },
   {
@@ -64,15 +64,15 @@ export const vendedores = [
     "label": "Nicolas Ortiz"
   },
   {
-    "value": "PAEZ, FRANCO",
+    "value": "91211720",
     "label": "Franco Paez"
   },
   {
-    "value": "PELUSO, CAMILA",
+    "value": "88961912",
     "label": "Camila Peluso"
   },
   {
-    "value": "RIVERA, MELINA",
+    "value": "91211722",
     "label": "Melina Rivera"
   },
   {
@@ -80,7 +80,7 @@ export const vendedores = [
     "label": "Mariela Evelin Rojas"
   },
   {
-    "value": "RONCATI, ANA LAURA",
+    "value": "91294349",
     "label": "Ana Laura Roncati"
   },
   {
@@ -88,7 +88,7 @@ export const vendedores = [
     "label": "Gimena UrueñA"
   },
   {
-    "value": "GOZZA, GIULIANA",
+    "value": "91211724",
     "label": "Giuliana Gozza"
   },
   {
@@ -96,15 +96,15 @@ export const vendedores = [
     "label": "Carolina Saralegui"
   },
   {
-    "value": "CAPARELLI, FIORELLA",
+    "value": "91211726",
     "label": "Fiorella Caparelli"
   },
   {
-    "value": "SPIEGELMAN, TOMAS EZEQUIEL",
+    "value": "91211728",
     "label": "Tomas Ezequiel Spiegelman"
   },
   {
-    "value": "DIAZ, FRANCO",
+    "value": "91211731",
     "label": "Franco Diaz"
   },
   {
