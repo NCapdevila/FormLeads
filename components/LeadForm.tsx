@@ -71,6 +71,7 @@ export default function LeadForm() {
     chasis: "",
     es0km: false,
     esPrendado: false,
+    retira_ahora: false,
     fechaFinPrenda: "",
     vendedor: "",
     productorAgencia: "",
@@ -93,6 +94,7 @@ export default function LeadForm() {
     chasis: "",
     es0km: false,
     esPrendado: false,
+    retira_ahora: false,
     fechaFinPrenda: "",
   });
 
@@ -323,6 +325,7 @@ export default function LeadForm() {
         chasis: "",
         es0km: false,
         esPrendado: false,
+        retira_ahora: false,
         fechaFinPrenda: "",
         vendedor: "",
         productorAgencia: "",
@@ -638,6 +641,19 @@ export default function LeadForm() {
 
               </label>
 
+              <label className="flex items-center gap-2">
+
+                <input
+                  type="checkbox"
+                  name="retira_ahora"
+                  checked={formData.retira_ahora}
+                  onChange={handleChange}
+                />
+
+                Retira Ahora!
+
+              </label>
+
             </div>
 
             {formData.esPrendado && (
@@ -662,7 +678,7 @@ export default function LeadForm() {
         <button
           type="submit"
           disabled={guardandoLead}
-          className="rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition btn-primary px-4 py-3 shadow-lg hover:scale-[1.02] flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+          className="rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition btn-primary px-4 py-3 shadow-lg hover:scale-[1.02] flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
         >
 
           {guardandoLead && (

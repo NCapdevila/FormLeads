@@ -1417,12 +1417,12 @@ export const productores = [
     "label": "Fortecar 9 De Julio / Chivilcoy"
   },
   {
-    "value": "Fortecar OlavarríA",
-    "label": "Fortecar OlavarríA"
+    "value": "Fortecar Olavarría",
+    "label": "Fortecar Olavarría"
   },
   {
-    "value": "Fortecar Trenque Lauquen Coronel Suaves",
-    "label": "Fortecar Trenque Lauquen Coronel Suaves"
+    "value": "Fortecar Trenque Lauquen Coronel Suarez",
+    "label": "Fortecar Trenque Lauquen Coronel Suarez"
   },
   {
     "value": "Ezequiel Fourcade",
@@ -1657,28 +1657,28 @@ export const productores = [
     "label": "Maria Soledad Grande Novoa"
   },
   {
-    "value": "Granville CóModo",
-    "label": "Granville CóModo"
+    "value": "Granville Cómodoro Rivadavia",
+    "label": "Granville Cómodoro Rivadavia"
   },
   {
     "value": "Granville Pergamino",
     "label": "Granville Pergamino"
   },
   {
-    "value": "Granville San NicoláS",
-    "label": "Granville San NicoláS"
+    "value": "Granville San Nicolás",
+    "label": "Granville San Nicolás"
   },
   {
     "value": "Uriel Grasano",
     "label": "Uriel Grasano"
   },
   {
-    "value": "Graville Puerto Madryn",
-    "label": "Graville Puerto Madryn"
+    "value": "Granville Puerto Madryn",
+    "label": "Granville Puerto Madryn"
   },
   {
-    "value": "Graville Trelew",
-    "label": "Graville Trelew"
+    "value": "Granville Trelew",
+    "label": "Granville Trelew"
   },
   {
     "value": "Ariel Grieves",
