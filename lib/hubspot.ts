@@ -83,7 +83,7 @@ export async function crearDeal(data: any, contactoId: string) {
     es_prendado: toHubspotBoolean(data.esPrendado),
     retira_ahora: toHubspotBoolean(data.retira_ahora),
     retira_hoy: toHubspotBoolean(data.retira_hoy),
-    gnc: toHubspotBoolean(data.gnc),
+    g: toHubspotBoolean(data.g),
     fecha_fin_prenda: toHubspotDate(data.fechaFinPrenda),
   });
 

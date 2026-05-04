@@ -74,7 +74,7 @@ export default function LeadForm() {
     esPrendado: false,
     retira_ahora: false,
     retira_hoy: false,
-    gnc: false,
+    g: false,
     fechaFinPrenda: "",
     vendedor: "",
     productorAgencia: "",
@@ -97,7 +97,7 @@ export default function LeadForm() {
     chasis: "",
     es0km: false,
     retira_hoy: false,
-    gnc: false,
+    g: false,
     esPrendado: false,
     retira_ahora: false,
     fechaFinPrenda: "",
@@ -333,7 +333,7 @@ export default function LeadForm() {
         esPrendado: false,
         retira_ahora: false,
         retira_hoy: false,
-        gnc: false,
+        g: false,
         fechaFinPrenda: "",
         vendedor: "",
         productorAgencia: "",
@@ -687,8 +687,8 @@ export default function LeadForm() {
 
                 <input
                   type="checkbox"
-                  name="gnc"
-                  checked={formData.gnc}
+                  name="g"
+                  checked={formData.g}
                   onChange={handleChange}
                 />
 
