@@ -35,6 +35,7 @@ export async function upsertContacto(data: any) {
     firstname: data.nombre,
     lastname: data.apellido,
     date_of_birth: data.fechaNacimiento,
+    dni: data.dni,
     country: "Argentina",
     state: data.provincia,
     city: data.localidad,
@@ -81,6 +82,8 @@ export async function crearDeal(data: any, contactoId: string) {
     es_0km: toHubspotBoolean(data.es0km),
     es_prendado: toHubspotBoolean(data.esPrendado),
     retira_ahora: toHubspotBoolean(data.retira_ahora),
+    retira_hoy: toHubspotBoolean(data.retira_hoy),
+    gnc: toHubspotBoolean(data.gnc),
     fecha_fin_prenda: toHubspotDate(data.fechaFinPrenda),
   });
 

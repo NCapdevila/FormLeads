@@ -61,6 +61,7 @@ export default function LeadForm() {
     codigoPostal: "",
     email: "",
     celular: "",
+    dni: "",
     riesgo: "",
     patente: "",
     marca: "",
@@ -72,6 +73,8 @@ export default function LeadForm() {
     es0km: false,
     esPrendado: false,
     retira_ahora: false,
+    retira_hoy: false,
+    gnc: false,
     fechaFinPrenda: "",
     vendedor: "",
     productorAgencia: "",
@@ -93,6 +96,8 @@ export default function LeadForm() {
     motor: "",
     chasis: "",
     es0km: false,
+    retira_hoy: false,
+    gnc: false,
     esPrendado: false,
     retira_ahora: false,
     fechaFinPrenda: "",
@@ -315,6 +320,7 @@ export default function LeadForm() {
         codigoPostal: "",
         email: "",
         celular: "",
+        dni: "",
         riesgo: "",
         patente: "",
         marca: "",
@@ -326,6 +332,8 @@ export default function LeadForm() {
         es0km: false,
         esPrendado: false,
         retira_ahora: false,
+        retira_hoy: false,
+        gnc: false,
         fechaFinPrenda: "",
         vendedor: "",
         productorAgencia: "",
@@ -405,6 +413,14 @@ export default function LeadForm() {
             name="celular"
             placeholder="Celular"
             value={formData.celular}
+            onChange={handleChange}
+            className="input"
+          />
+
+          <input
+            name="dni"
+            placeholder="DNI"
+            value={formData.dni}
             onChange={handleChange}
             className="input"
           />
@@ -651,6 +667,32 @@ export default function LeadForm() {
                 />
 
                 Retira Ahora!
+
+              </label>
+
+              <label className="flex items-center gap-2">
+
+                <input
+                  type="checkbox"
+                  name="retira_hoy"
+                  checked={formData.retira_hoy}
+                  onChange={handleChange}
+                />
+
+                Retira Hoy!
+
+              </label>
+
+              <label className="flex items-center gap-2">
+
+                <input
+                  type="checkbox"
+                  name="gnc"
+                  checked={formData.gnc}
+                  onChange={handleChange}
+                />
+
+                GNC
 
               </label>
 
