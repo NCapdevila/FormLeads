@@ -3261,6 +3261,10 @@ export const productores = [
     "label": "Sports Cam Autos, Concesionaria"
   },
   {
+    "value": "Oscar S, Concesionaria",
+    "label": "Oscar S, Concesionaria"
+  },
+  {
     "value": "Squaglia, Concesionaria",
     "label": "Squaglia, Concesionaria"
   },
