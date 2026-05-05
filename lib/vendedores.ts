@@ -115,6 +115,10 @@ export const vendedores = [
     "value": "90352186",
     "label": "Ailen Silva"
   },
+  {
+    "value": "91211732",
+    "label": "Franco Luca Della Sala"
+  }
 ];
 
 
