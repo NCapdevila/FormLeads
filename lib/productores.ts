@@ -4291,5 +4291,9 @@ export const productores = [
   {
     "value": "LV MOTORS",
     "label": "LV MOTORS"
+  },
+  {
+    "value": "DF1 AUTOMOTORES",
+    "label": "DF1 AUTOMOTORES"
   }
 ];
