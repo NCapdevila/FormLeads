@@ -4279,5 +4279,17 @@ export const productores = [
   {
     "value": "Dorst, Concesionaria",
     "label": "Dorst, Concesionaria"
+  },
+  {
+    "value": "AD AUTOS",
+    "label": "AD AUTOS"
+  },
+  {
+    "value": "Galeria Seguros Infinito Créditos",
+    "label": "Galeria Seguros Infinito Créditos"
+  },
+  {
+    "value": "LV MOTORS",
+    "label": "LV MOTORS"
   }
 ];
