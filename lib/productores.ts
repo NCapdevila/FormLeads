@@ -4295,5 +4295,9 @@ export const productores = [
   {
     "value": "DF1 AUTOMOTORES",
     "label": "DF1 AUTOMOTORES"
+  },
+  {
+    "value": "Medeci",
+    "label": "Medeci"
   }
 ];
