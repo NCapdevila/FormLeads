@@ -2497,8 +2497,8 @@ export const productores = [
     "label": "Munafo"
   },
   {
-    "value": "Federico Daniel MuñOz",
-    "label": "Federico Daniel MuñOz"
+    "value": "Federico Daniel Muñoz",
+    "label": "Federico Daniel Muñoz"
   },
   {
     "value": "Rosana Muscatelo",
@@ -3905,9 +3905,9 @@ export const productores = [
     "label": "Jk Automotores"
   },
   {
-    "value": "Jmautos",
-    "label": "Jmautos"
-  },
+    "value": "Jm autos",
+    "label": "Jm autos"
+  }, 
   {
     "value": "Jms",
     "label": "Jms"
@@ -4297,7 +4297,12 @@ export const productores = [
     "label": "DF1 AUTOMOTORES"
   },
   {
-    "value": "Medeci",
-    "label": "Medeci"
+    "value": "Mi Casa Autos",
+    "label": "Mi Casa Autos"
+  },
+  {
+    "value": "Tejeda Automotores",
+    "label": "Tejeda Automotores"
   }
+
 ];

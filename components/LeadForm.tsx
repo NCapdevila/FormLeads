@@ -79,6 +79,7 @@ export default function LeadForm() {
     vendedor: "",
     productorAgencia: "",
     esReferido: false,
+    observaciones: "",
 
   });
 
@@ -185,7 +186,7 @@ export default function LeadForm() {
 
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value, type } = e.target;
     const checked =
@@ -338,6 +339,7 @@ export default function LeadForm() {
         vendedor: "",
         productorAgencia: "",
         esReferido: false,
+        observaciones: "",
       });
 
       setErrors({});
@@ -715,6 +717,18 @@ export default function LeadForm() {
         )}
 
       </section>
+
+      <div className="space-y-2">
+        <textarea
+          id="observaciones"
+          name="observaciones"
+          placeholder="Ingresá observaciones relevantes..."
+          value={formData.observaciones}
+          onChange={handleChange}
+          rows={3}
+          className="input resize-none"
+        />
+      </div>
       <div className="flex justify-center pt-4">
 
         <button

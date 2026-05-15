@@ -85,6 +85,7 @@ export async function crearDeal(data: any, contactoId: string) {
     retira_hoy: toHubspotBoolean(data.retira_hoy),
     g: toHubspotBoolean(data.g),
     fecha_fin_prenda: toHubspotDate(data.fechaFinPrenda),
+    comentarios: data.observaciones,
   });
 
   const response = await client.apiRequest({
