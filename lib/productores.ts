@@ -3533,8 +3533,8 @@ export const productores = [
     "label": "Antonio Zuccotti"
   },
   {
-    "value": "502 Y Sp",
-    "label": "502 Y Sp"
+    "value": "Sp",
+    "label": "Sp"
   },
   {
     "value": "505 Garage",
@@ -3877,8 +3877,8 @@ export const productores = [
     "label": "Ilario"
   },
   {
-    "value": "Im Motor",
-    "label": "Im Motor"
+    "value": "Im Motors",
+    "label": "Im Motors"
   },
   {
     "value": "Incamotors",
