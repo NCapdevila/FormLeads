@@ -4311,6 +4311,47 @@ export const productores = [
   {
     "value": "Ardama Conce (editar)",
     "label": "Ardama Conce (editar)"
-  }
+  },
+  {
+    "value": "Ahumada",
+    "label": "Ahumada"
+  },
+  {
+    "value": "Ferez",
+    "label": "Ferez"
+  },
+  {
+    "value": "Managers",
+    "label": "Managers"
+  },
+  {
+    "value": "Gonzalo Ferraro",
+    "label": "Gonzalo Ferraro"
+  },
+  {
+    "value": "Autotei",
+    "label": "Autotei"
+  },
+  {
+    "value": "Ls Automotores",
+    "label": "Ls Automotores"
+  },
+  {
+    "value": "Giovanelli",
+    "label": "Giovanelli"
+  },
+  {
+    "value": "Droopyllo",
+    "label": "Droopyllo"
+  },
+  {
+    "value": "Los Gallegos",
+    "label": "Los Gallegos"
+  },
+  {
+    "value": "AutoFacil",
+    "label": "AutoFacil"
+  },
+  
 
 ];
