@@ -4303,6 +4303,14 @@ export const productores = [
   {
     "value": "Tejeda Automotores",
     "label": "Tejeda Automotores"
+  },
+  {
+    "value": "Agk Group",
+    "label": "Agk Group"
+  },
+  {
+    "value": "Ardama Conce (editar)",
+    "label": "Ardama Conce (editar)"
   }
 
 ];
