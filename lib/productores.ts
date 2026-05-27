@@ -4352,6 +4352,14 @@ export const productores = [
     "value": "AutoFacil",
     "label": "AutoFacil"
   },
+  {
+    "value": "Pitbullcar",
+    "label": "Pitbullcar"
+  },
+  {
+    "value": "Jai",
+    "label": "Jai"
+  }
   
 
 ];
