@@ -4359,6 +4359,10 @@ export const productores = [
   {
     "value": "Jai",
     "label": "Jai"
+  },
+  {
+    "value": "Concesionario Personal",
+    "label": "Concesionario Personal"
   }
   
 
