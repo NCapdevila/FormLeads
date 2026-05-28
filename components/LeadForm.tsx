@@ -13,6 +13,7 @@ import { vendedores } from "@/lib/vendedores";
 import { productores } from "@/lib/productores";
 import { consultarPatente } from "@/lib/datacar";
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
+import { comerciales } from "@/lib/comercial";
 
 
 export default function LeadForm() {
@@ -78,6 +79,7 @@ export default function LeadForm() {
     fechaFinPrenda: "",
     vendedor: "",
     productorAgencia: "",
+    comercialConcesionaria: "",
     esReferido: false,
     observaciones: "",
 
@@ -338,6 +340,7 @@ export default function LeadForm() {
         fechaFinPrenda: "",
         vendedor: "",
         productorAgencia: "",
+        comercialConcesionaria: "",
         esReferido: false,
         observaciones: "",
       });
@@ -483,7 +486,7 @@ export default function LeadForm() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
           <SearchSelect
             options={vendedores}
@@ -505,6 +508,18 @@ export default function LeadForm() {
               setFormData(prev => ({
                 ...prev,
                 productorAgencia: value,
+              }))
+            }
+          />
+
+          <SearchSelect
+            options={comerciales}
+            value={formData.comercialConcesionaria}
+            placeholder="Buscar comercial de concesionaria..."
+            onChange={(value) =>
+              setFormData(prev => ({
+                ...prev,
+                comercialConcesionaria: value,
                 esReferido: false,
               }))
             }
