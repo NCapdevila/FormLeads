@@ -1,6 +1,18 @@
 
 export const productores = [
   {
+    "value": "Trebol, Concesionaria",
+    "label": "Trebol, Concesionaria"
+  },
+  {
+    "value": "Squad Store 2, Concesionaria",
+    "label": "Squad Store 2, Concesionaria"
+  },
+  {
+    "value": "Dezicars",
+    "label": "Dezicars"
+  },
+  {
     "value": "Jose Luis Ballesteros",
     "label": "Jose Luis Ballesteros"
   },
