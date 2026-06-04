@@ -3757,10 +3757,6 @@ export const productores = [
     "label": "Del Pilar"
   },
   {
-    "value": "Df1",
-    "label": "Df1"
-  },
-  {
     "value": "Dg",
     "label": "Dg"
   },
