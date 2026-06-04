@@ -44,7 +44,6 @@ export async function upsertContacto(data: any) {
     hs_whatsapp_phone_number: data.celular,
     hubspot_owner_id: data.vendedor,
     productor_agencia: data.productorAgencia,
-    es_referido: toHubspotBoolean(data.esReferido),
     lifecyclestage: "lead",
     lead_source: "Formulario Web",
   });

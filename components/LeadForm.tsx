@@ -80,7 +80,6 @@ export default function LeadForm() {
     vendedor: "",
     productorAgencia: "",
     comercialConcesionaria: "",
-    esReferido: false,
     observaciones: "",
 
   });
@@ -341,7 +340,6 @@ export default function LeadForm() {
         vendedor: "",
         productorAgencia: "",
         comercialConcesionaria: "",
-        esReferido: false,
         observaciones: "",
       });
 
@@ -520,25 +518,9 @@ export default function LeadForm() {
               setFormData(prev => ({
                 ...prev,
                 comercialConcesionaria: value,
-                esReferido: false,
               }))
             }
           />
-
-          {formData.productorAgencia === "Ardama" && (
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                name="esReferido"
-                checked={formData.esReferido}
-                onChange={handleChange}
-              />
-              Es referido
-            </label>
-          )}
-
-
-
         </div>
 
       </section>
@@ -564,6 +546,12 @@ export default function LeadForm() {
           <option value="AUTO">Auto</option>
           <option value="MOTO">Moto</option>
           <option value="HOGAR">Hogar</option>
+          <option value="VIDA">Bici</option>
+          <option value="NOTEBOOK">Notebook</option>
+          <option value="CELULAR">Celular</option>
+          <option value="TRAILER">Trailer</option>
+          <option value="CUATRICICLO">Cuatriciclo</option>
+          <option value="MONOPATIN">Monopatín</option>
         </select>
 
         {showVehicleFields && (
