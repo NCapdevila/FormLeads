@@ -4375,7 +4375,11 @@ export const productores = [
   {
     "value": "Concesionario Personal",
     "label": "Concesionario Personal"
-  }
+  },
+  {
+    "value": "Ardama (REFERIDO)",
+    "label": "Ardama (REFERIDO)"
+  },
   
 
 ];
