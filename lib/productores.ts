@@ -3221,8 +3221,12 @@ export const productores = [
     "label": "Mariano Selasco"
   },
   {
-    "value": "Cars Selective",
-    "label": "Cars Selective"
+    "value": "Selective Cars",
+    "label": "Selective Cars"
+  },
+  {
+    "value": "Maq Automotores, Concesionaria",
+    "label": "Maq Automotores, Concesionaria"
   },
   {
     "value": "Valeria Noemi Seoane",
