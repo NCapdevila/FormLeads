@@ -1989,8 +1989,8 @@ export const productores = [
     "label": "Maximiliano Legato"
   },
   {
-    "value": "Leinden Motors, Concesionaria",
-    "label": "Leinden Motors, Concesionaria"
+    "value": "Leiden Motors, Concesionaria",
+    "label": "Leiden Motors, Concesionaria"
   },
   {
     "value": "Matias Javier Leizza",
