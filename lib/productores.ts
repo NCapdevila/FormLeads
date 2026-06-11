@@ -4380,6 +4380,25 @@ export const productores = [
     "value": "Ardama (REFERIDO)",
     "label": "Ardama (REFERIDO)"
   },
-  
+  {
+    "value": "Lusero Automotores, Concesionaria",
+    "label": "Lusero Automotores, Concesionaria"
+  },
+  {
+    "value": "Catrina, Concesionaria",
+    "label": "Catrina, Concesionaria"
+  },
+  {
+    "value": "Bengoechea, Concesionaria",
+    "label": "Bengoechea, Concesionaria"
+  },
+  {
+    "value": "Miretti, Concesionaria",
+    "label": "Miretti, Concesionaria"
+  },
+  {
+    "value": "Aconcam, Concesionaria",
+    "label": "Aconcam, Concesionaria"
+  }
 
 ];
