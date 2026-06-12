@@ -4399,6 +4399,14 @@ export const productores = [
   {
     "value": "Aconcam, Concesionaria",
     "label": "Aconcam, Concesionaria"
+  },
+  {
+    "value": "Soulcars, Concesionaria",
+    "label": "Soulcars, Concesionaria"
+  },
+  {
+    "value": "Kaizen Cordoba, Concesionaria",
+    "label": "Kaizen Cordoba, Concesionaria"
   }
 
 ];
