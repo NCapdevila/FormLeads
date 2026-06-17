@@ -4416,9 +4416,4 @@ export const productores = [
     "value": "Walter Tellado",
     "label": "Walter Tellado"
   },
-  {
-    
-  }
-
-
 ];
