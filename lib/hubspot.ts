@@ -70,7 +70,6 @@ export async function crearDeal(data: any, contactoId: string) {
     pipeline: "886201234", 
     dealstage: "1333717761",
     hubspot_owner_id: data.vendedor,
-    comercial_concesionaria: data.comercialConcesionaria,
     tipo_riesgo: data.riesgo,
     patente_vehiculo: data.patente?.toUpperCase(),
     marca_vehiculo: data.marca,

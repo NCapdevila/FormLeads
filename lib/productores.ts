@@ -4407,6 +4407,18 @@ export const productores = [
   {
     "value": "Kaizen Cordoba, Concesionaria",
     "label": "Kaizen Cordoba, Concesionaria"
+  },
+  {
+    "value": "Leonardo Dargebio",
+    "label": "Leonardo Dargebio"
+  },
+  {
+    "value": "Walter Tellado",
+    "label": "Walter Tellado"
+  },
+  {
+    
   }
+
 
 ];
