@@ -118,6 +118,14 @@ export const vendedores = [
   {
     "value": "91211732",
     "label": "Franco Luca Della Sala"
+  },
+  {
+    "value": "94315404",
+    "label": "Nicolas Romero"
+  },
+  {
+    "value": "94194454",
+    "label": "Gimena Urueña"
   }
 ];
 
