@@ -1841,8 +1841,12 @@ export const productores = [
     "label": "Juanjo Detail, Concesionaria"
   },
   {
-    "value": "Julian Tschopp, Concesionaria",
-    "label": "Julian Tschopp, Concesionaria"
+    "value": "Julian Tschopp(Colon), Concesionaria",
+    "label": "Julian Tschopp(colon), Concesionaria"
+  },
+  {
+    "value": "Julian Tschopp(Uruguay), Concesionaria",
+    "label": "Julian Tschopp(Uruguay), Concesionaria"
   },
   {
     "value": "Julio Quiroga, Concesionaria",
@@ -4416,4 +4420,8 @@ export const productores = [
     "value": "Walter Tellado",
     "label": "Walter Tellado"
   },
+  {
+    "value": "Grupo Dente, Concesionaria",
+    "label": "Grupo Dente, Concesionaria"
+  }
 ];
