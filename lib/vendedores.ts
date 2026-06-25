@@ -126,7 +126,7 @@ export const vendedores = [
   {
     "value": "94194454",
     "label": "Gimena Urueña"
-  }
+  },
 ];
 
 
