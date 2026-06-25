@@ -4435,5 +4435,5 @@ export const productores = [
   {
     "value": "LH Motos",
     "label": "LH Motos"
-  }
+  },
 ];
