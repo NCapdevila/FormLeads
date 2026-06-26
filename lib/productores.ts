@@ -4421,10 +4421,6 @@ export const productores = [
     "label": "Walter Tellado"
   },
   {
-    "value": "Grupo Dente, Concesionaria",
-    "label": "Grupo Dente, Concesionaria"
-  },
-  {
     "value": "Inmobiliaria Nacho (editar)",
     "label": "Inmobiliaria Nacho (editar)"
   },
