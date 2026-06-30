@@ -4432,4 +4432,84 @@ export const productores = [
     "value": "LH Motos",
     "label": "LH Motos"
   },
+  {
+    "value": "Humberto, Concesionaria",
+    "label": "Humberto, Concesionaria"
+  },
+  {
+    "value": "Mr automotores, Concesionaria",
+    "label": "Mr automotores, Concesionaria"
+  },
+  {
+    "value": "Don Bosco, Concesionaria",
+    "label": "Don Bosco, Concesionaria"
+  },
+  {
+    "value": "Da Silva Motors, Concesionaria",
+    "label": "Da Silva Motors, Concesionaria"
+  },
+  {
+    "value": "Vdo, Concesionaria",
+    "label": "Vdo, Concesionaria"
+  },
+  {
+    "value": "David Automotores, Concesionaria",
+    "label": "David Automotores, Concesionaria"
+  },
+  {
+    "value": "Ventura, Concesionaria",
+    "label": "Ventura, Concesionaria"
+  },
+  {
+    "value": "Boperal, Concesionaria",
+    "label": "Boperal, Concesionaria"
+  },
+  {
+    "value": "Machado, Concesionaria",
+    "label": "Machado, Concesionaria"
+  },
+  {
+    "value": "Mareque Automoviles, Concesionaria",
+    "label": "Mareque Automoviles, Concesionaria"
+  },
+  {
+    "value": "Soft Seguros Milmons, Concesionaria",
+    "label": "Soft Seguros Milmons, Concesionaria"
+  },
+  {
+    "value": "Soft Seguros Odriozola, Concesionaria",
+    "label": "Soft Seguros Odriozola, Concesionaria"
+  },
+  {
+    "value": "Mantra, Concesionaria",
+    "label": "Mantra, Concesionaria"
+  },
+  {
+    "value": "Sva Automotores, Concesionaria",
+    "label": "Sva Automotores, Concesionaria"
+  },
+  {
+    "value": "Creditos Diagonal, Concesionaria",
+    "label": "Creditos Diagonal, Concesionaria"
+  },
+  {
+    "value": "Motors Cred, Concesionaria",
+    "label": "Motors Cred, Concesionaria"
+  },
+  {
+    "value": "Bruera, Concesionaria",
+    "label": "Bruera, Concesionaria"
+  },
+  {
+    "value": "Vck Automotores, Concesionaria",
+    "label": "Vck Automotores, Concesionaria"
+  },
+  {
+    "value": "Mavic, Concesionaria",
+    "label": "Mavic, Concesionaria"
+  },
+  {
+    "value": "Os-Car, Concesionaria",
+    "label": "Os-Car, Concesionaria"
+  }
 ];
