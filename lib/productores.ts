@@ -4511,5 +4511,9 @@ export const productores = [
   {
     "value": "Os-Car, Concesionaria",
     "label": "Os-Car, Concesionaria"
+  },
+  {
+    "value": "Prestige Garage, Concesionaria",
+    "label": "Prestige Garage, Concesionaria"
   }
 ];
