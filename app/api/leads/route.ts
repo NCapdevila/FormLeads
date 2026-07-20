@@ -67,7 +67,7 @@ export async function POST(req: Request) {
     const { success, score } = await verify.json();
     console.log("CAPTCHA:", { success, score });
 
-    if (!success || score < 0.5) {
+    if (!success || score < 0.3) {
       return NextResponse.json(
         { success: false, error: "Verificación de seguridad fallida" },
         { status: 400 }
