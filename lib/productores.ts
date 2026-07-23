@@ -4481,6 +4481,10 @@ export const productores = [
     "label": "Soft Seguros Odriozola, Concesionaria"
   },
   {
+    "value": "SOFT CINGOLAN, CONCESIONARIA",
+    "label": "SOFT CINGOLAN, CONCESIONARIA"
+  },
+  {
     "value": "Mantra, Concesionaria",
     "label": "Mantra, Concesionaria"
   },
