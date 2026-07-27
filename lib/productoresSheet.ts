@@ -5,10 +5,6 @@ export type OpcionProductor = {
   label: string;
 };
 
-// Cada cuántos segundos se vuelve a leer la planilla.
-// La página se sirve cacheada, así que esto no se paga en cada visita.
-const REVALIDAR_SEGUNDOS = 300;
-
 // Marcas de acento que quedan sueltas después del normalize("NFD")
 const DIACRITICOS = new RegExp("[\\u0300-\\u036f]", "g");
 
@@ -121,8 +117,9 @@ export async function getProductores(): Promise<OpcionProductor[]> {
   }
 
   try {
+    // Sin cache: cada visita lee la planilla, los cambios se ven al instante
     const respuesta = await fetch(construirUrl(sheet), {
-      next: { revalidate: REVALIDAR_SEGUNDOS },
+      cache: "no-store",
     });
 
     if (!respuesta.ok) throw new Error(`Google respondio ${respuesta.status}`);

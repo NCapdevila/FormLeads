@@ -2,6 +2,9 @@ import Image from "next/image";
 import LeadForm from "@/components/LeadForm";
 import { getProductores } from "@/lib/productoresSheet";
 
+// Sin prerender: la lista de productores se lee en cada request
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const productores = await getProductores();
 
