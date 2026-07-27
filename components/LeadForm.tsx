@@ -10,13 +10,15 @@ import {
 
 import SearchSelect from "@/components/SearchSelect";
 import { vendedores } from "@/lib/vendedores";
-import { productores } from "@/lib/productores";
 import { consultarPatente } from "@/lib/datacar";
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
+interface Props {
+  // Llega desde la planilla de Google (ver lib/productoresSheet.ts)
+  productores: { value: string; label: string }[];
+}
 
-
-export default function LeadForm() {
+export default function LeadForm({ productores }: Props) {
   const { executeRecaptcha } = useGoogleReCaptcha()
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [consultandoPatente, setConsultandoPatente] = useState(false);

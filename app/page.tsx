@@ -1,7 +1,10 @@
 import Image from "next/image";
 import LeadForm from "@/components/LeadForm";
+import { getProductores } from "@/lib/productoresSheet";
 
-export default function Home() {
+export default async function Home() {
+  const productores = await getProductores();
+
   return (
     <main className="page-shell min-h-screen px-6 py-10">
       <div className="mx-auto max-w-5xl">
@@ -23,7 +26,7 @@ export default function Home() {
         </div>
 
         <div className="section-card">
-          <LeadForm />
+          <LeadForm productores={productores} />
         </div>
       </div>
     </main>
