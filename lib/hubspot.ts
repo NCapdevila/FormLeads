@@ -34,6 +34,7 @@ export async function upsertContacto(data: any) {
     email,
     firstname: data.nombre,
     lastname: data.apellido,
+    gender: data.genero,
     date_of_birth: data.fechaNacimiento,
     dni: data.dni,
     country: "Argentina",

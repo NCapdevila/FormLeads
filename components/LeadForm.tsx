@@ -1,24 +1,53 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useMemo } from "react";
 import {
   User,
   MapPin,
   Car,
-  Briefcase
+  Briefcase,
+  AlertTriangle,
+  X
 } from "lucide-react";
 
 import SearchSelect from "@/components/SearchSelect";
 import { vendedores } from "@/lib/vendedores";
 import { consultarPatente } from "@/lib/datacar";
+import { ETIQUETAS, marcarCargada } from "@/lib/precargas";
+import { leadFormVacio, type GeneroType, type LeadFormData } from "@/types/lead";
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 interface Props {
   // Llega desde la planilla de Google (ver lib/productoresSheet.ts)
   productores: { value: string; label: string }[];
+
+  // --- Pre-carga (opcional) ---
+  // Valores que vienen de la tabla `precargas`. Son sólo el punto de partida:
+  // acá se editan como cualquier otro campo.
+  initialValues?: Partial<LeadFormData>;
+  // Campos que el bot no leyó con certeza. Se listan en el aviso de arriba.
+  camposDudosos?: (keyof LeadFormData)[];
+  // Aclaraciones (ej. una fecha parcial que no entra en un input date). También
+  // van en el aviso de arriba, no al pie de cada campo.
+  notas?: Partial<Record<keyof LeadFormData, string>>;
+  // Si el lead viene de una pre-carga, su id: se marca como `cargado` recién
+  // cuando el POST a /api/leads sale bien.
+  precargaId?: string;
+  precargaTitulo?: string;
+  onDesvincularPrecarga?: () => void;
+  onLeadGuardado?: () => void;
 }
 
-export default function LeadForm({ productores }: Props) {
+export default function LeadForm({
+  productores,
+  initialValues,
+  camposDudosos,
+  notas,
+  precargaId,
+  precargaTitulo,
+  onDesvincularPrecarga,
+  onLeadGuardado,
+}: Props) {
   const { executeRecaptcha } = useGoogleReCaptcha()
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [consultandoPatente, setConsultandoPatente] = useState(false);
@@ -55,35 +84,27 @@ export default function LeadForm({ productores }: Props) {
     }, 3500);
   };
 
-  const [formData, setFormData] = useState({
-    nombre: "",
-    apellido: "",
-    fechaNacimiento: "",
-    provincia: "",
-    localidad: "",
-    codigoPostal: "",
-    email: "",
-    celular: "",
-    dni: "",
-    riesgo: "",
-    patente: "",
-    marca: "",
-    modelo: "",
-    version: "",
-    anio: "",
-    motor: "",
-    chasis: "",
-    es0km: false,
-    esPrendado: false,
-    retira_ahora: false,
-    retira_hoy: false,
-    g: false,
-    fechaFinPrenda: "",
-    vendedor: "",
-    productorAgencia: "",
-    observaciones: "",
-
+  // El componente se remonta (key) cuando cambia la pre-carga elegida, así que
+  // alcanza con sembrar el estado inicial.
+  const [formData, setFormData] = useState<LeadFormData>({
+    ...leadFormVacio,
+    ...initialValues,
   });
+
+  // Los campos dudosos no se resaltan uno por uno: se listan en el aviso de
+  // arriba y ya. Los inputs quedan como en cualquier carga manual.
+  const listaDudosos = useMemo(
+    () =>
+      (camposDudosos ?? [])
+        .map((campo) => ETIQUETAS[campo] ?? campo)
+        .join(", "),
+    [camposDudosos]
+  );
+
+  const listaNotas = useMemo(
+    () => Object.values(notas ?? {}).filter(Boolean) as string[],
+    [notas]
+  );
 
   const showVehicleFields =
     formData.riesgo === "AUTO" ||
@@ -244,6 +265,16 @@ export default function LeadForm({ productores }: Props) {
       return nextErrors;
     });
   };
+  // El género no es un <input>, así que no pasa por handleChange. Volver a
+  // tocar la opción activa la deselecciona: el campo es opcional y, si queda
+  // vacío, la API no manda `gender` a HubSpot.
+  const toggleGenero = (value: Exclude<GeneroType, "">) => {
+    setFormData((prev) => ({
+      ...prev,
+      genero: prev.genero === value ? "" : value,
+    }));
+  };
+
   const handleConsultarPatente = async () => {
     if (!formData.patente) {
       alert("Ingresá una patente");
@@ -314,36 +345,25 @@ export default function LeadForm({ productores }: Props) {
 
       showToast("success", "Lead guardado", "El lead se guardó correctamente.");
 
-      setFormData({
-        nombre: "",
-        apellido: "",
-        fechaNacimiento: "",
-        provincia: "",
-        localidad: "",
-        codigoPostal: "",
-        email: "",
-        celular: "",
-        dni: "",
-        riesgo: "",
-        patente: "",
-        marca: "",
-        modelo: "",
-        version: "",
-        anio: "",
-        motor: "",
-        chasis: "",
-        es0km: false,
-        esPrendado: false,
-        retira_ahora: false,
-        retira_hoy: false,
-        g: false,
-        fechaFinPrenda: "",
-        vendedor: "",
-        productorAgencia: "",
-        observaciones: "",
-      });
+      // Recién ahora la pre-carga pasa a `cargado`: nunca al abrir el form.
+      // Si el UPDATE falla, el lead igual quedó bien guardado en HubSpot, así
+      // que no lo tratamos como error del envío.
+      if (precargaId) {
+        try {
+          await marcarCargada(precargaId);
+        } catch (e) {
+          console.error("No se pudo marcar la pre-carga como cargada:", e);
+          showToast(
+            "error",
+            "Lead guardado, pre-carga sin actualizar",
+            "El lead se guardó, pero la pre-carga sigue pendiente."
+          );
+        }
+      }
 
+      setFormData({ ...leadFormVacio });
       setErrors({});
+      onLeadGuardado?.();
     } catch (error) {
       console.error(error);
       showToast("error", "Error inesperado", "Hubo un error al intentar guardar el lead.");
@@ -351,6 +371,11 @@ export default function LeadForm({ productores }: Props) {
       setGuardandoLead(false);
     }
   };
+
+  const generoOptions: { value: Exclude<GeneroType, "">; label: string }[] = [
+    { value: "M", label: "MAS" },
+    { value: "F", label: "FEM" },
+  ];
 
   const riesgoOptions = [
     { value: "AUTO", label: "Auto" },
@@ -362,6 +387,51 @@ export default function LeadForm({ productores }: Props) {
       onSubmit={handleSubmit}
       className="space-y-10"
     >
+
+      {/* PRE-CARGA (solo si el lead vino del bot) */}
+
+      {precargaId && (
+        <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4">
+          <AlertTriangle size={18} className="mt-0.5 shrink-0 text-amber-600" />
+
+          <div className="flex-1 text-sm">
+            <p className="font-semibold text-amber-900">
+              Formulario pre-cargado
+            </p>
+            <p className="mt-0.5 text-amber-800">
+              {precargaTitulo}
+            </p>
+            {listaDudosos && (
+              <p className="mt-1 text-xs text-amber-700">
+                El bot no leyó con certeza: <strong>{listaDudosos}</strong>.
+                Revisalos antes de guardar.
+              </p>
+            )}
+
+            {listaNotas.map((nota) => (
+              <p key={nota} className="mt-1 text-xs text-amber-700">
+                {nota}
+              </p>
+            ))}
+
+            <p className="mt-1 text-xs text-amber-700">
+              Todo es editable. La pre-carga se marca como cargada recién cuando
+              el lead se guarda bien.
+            </p>
+          </div>
+
+          {onDesvincularPrecarga && (
+            <button
+              type="button"
+              onClick={onDesvincularPrecarga}
+              className="rounded-lg p-1 text-amber-500 transition hover:bg-amber-100 hover:text-amber-700"
+              title="Desvincular la pre-carga y vaciar el formulario"
+            >
+              <X size={16} />
+            </button>
+          )}
+        </div>
+      )}
 
       {/* CLIENTE */}
 
@@ -376,21 +446,46 @@ export default function LeadForm({ productores }: Props) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-          <input
-            name="nombre"
-            placeholder="Nombre"
-            value={formData.nombre}
-            onChange={handleChange}
-            className="input"
-          />
+          {/* Nombre / Apellido / Género comparten fila: la sección sigue siendo
+              de 2 columnas, así que este bloque las ocupa y se subdivide en 3
+              (el selector va angosto y no le roba ancho a los otros campos). */}
+          <div className="grid grid-cols-1 gap-4 md:col-span-2 md:grid-cols-[1fr_1fr_auto]">
 
-          <input
-            name="apellido"
-            placeholder="Apellido"
-            value={formData.apellido}
-            onChange={handleChange}
-            className="input"
-          />
+            <input
+              name="nombre"
+              placeholder="Nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              className="input"
+            />
+
+            <input
+              name="apellido"
+              placeholder="Apellido"
+              value={formData.apellido}
+              onChange={handleChange}
+              className="input"
+            />
+
+            <div
+              role="group"
+              aria-label="Género"
+              className="toggle-genero md:w-44"
+            >
+              {generoOptions.map(({ value, label }) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => toggleGenero(value)}
+                  aria-pressed={formData.genero === value}
+                  className="toggle-genero-opcion"
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
+          </div>
 
 
 

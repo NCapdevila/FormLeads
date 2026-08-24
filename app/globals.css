@@ -72,3 +72,54 @@ body {
 .grecaptcha-badge {
   visibility: hidden !important;
 }
+
+/* Texto que abre el modal de pre-cargas, al lado del logo */
+.link-precargas {
+  @apply inline-flex items-center gap-2 rounded-lg px-2 py-1 text-sm font-medium transition;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.link-precargas:hover {
+  background: rgba(51, 121, 246, 0.08);
+  color: var(--color-primary-dark);
+}
+
+/* Selector de género (MAS | FEM): dos botones tipo toggle con la misma altura
+   y borde que .input, para que no desentone en la fila de nombre/apellido. */
+.toggle-genero {
+  @apply flex items-center gap-1 rounded-xl border p-1 transition;
+  border-color: #dbe4f0;
+  background: white;
+}
+
+.toggle-genero-opcion {
+  @apply flex-1 rounded-lg px-4 py-2 text-sm font-semibold transition;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+.toggle-genero-opcion:hover {
+  background: rgba(51, 121, 246, 0.08);
+  color: var(--color-primary);
+}
+
+/* aria-pressed es también el estado visual: así no hay una clase "activo"
+   que pueda quedar desincronizada del atributo que lee el lector de pantalla. */
+.toggle-genero-opcion[aria-pressed="true"],
+.toggle-genero-opcion[aria-pressed="true"]:hover {
+  background: linear-gradient(135deg, #33CCF6 0%, #3379F6 100%);
+  color: white;
+}
+
+.toggle-genero-opcion[aria-pressed="true"]:hover {
+  filter: brightness(0.95);
+}
+
+/* Buscador del modal: deja lugar al ícono de la lupa. Va en una clase propia
+   porque .input aplica p-3 y, al definirse después de las utilidades de
+   Tailwind, le ganaría a un pl-9 suelto en el className. */
+.input-busqueda {
+  padding-left: 2.25rem;
+}
+

@@ -17,11 +17,19 @@ function forceMobileAR(phone?: string) {
   return `+549${clean}`;
 }
 
+// El selector del form manda "M" | "F" (o vacío). Cualquier otra cosa se
+// descarta para no ensuciar la property `gender` del contacto en HubSpot.
+function normalizarGenero(value?: string) {
+  const v = (value || "").trim().toUpperCase();
+  return v === "M" || v === "F" ? v : undefined;
+}
+
 function normalizarDatos(data: any) {
   return {
     ...data,
     nombre: toTitleCase(data.nombre),
     apellido: toTitleCase(data.apellido),
+    genero: normalizarGenero(data.genero),
     provincia: toTitleCase(data.provincia),
     localidad: toTitleCase(data.localidad),
     celular: forceMobileAR(data.celular),
