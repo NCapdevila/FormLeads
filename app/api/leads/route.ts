@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { crearLeadYDeal } from "@/lib/hubspot";
+import { cotizarEnAbsa } from "@/lib/absa";
 
 function toTitleCase(value?: string) {
   if (!value) return undefined;
@@ -100,10 +101,18 @@ export async function POST(req: Request) {
     console.log("CONTACTO HUBSPOT:", contacto);
     console.log("DEAL HUBSPOT:", deal);
 
+    // Recién con el dealId en mano se puede disparar el cotizador de ABSA.
+    // Solo aplica a riesgo AUTO y nunca rompe el alta: si falla, el lead ya
+    // quedó guardado en HubSpot. El resultado de la cotización no vuelve por
+    // acá: lo escribe ABSA en el Deal uno o dos minutos después.
+    const absa = await cotizarEnAbsa(normalizado, contacto.id, deal.id);
+    console.log("ABSA:", { dealId: deal.id, ...absa });
+
     return NextResponse.json({
       success: true,
       hubspotContactoId: contacto?.id ?? null,
       hubspotDealId: deal?.id ?? null,
+      absa,
     });
 
   } catch (error: any) {
