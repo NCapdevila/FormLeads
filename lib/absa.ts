@@ -50,6 +50,38 @@ function toFechaAbsa(value?: string) {
   return undefined;
 }
 
+
+// DataCar no devuelve la version por separado: mete marca+version juntas en
+// `model` ("TRACKER 1.2T AT PREMIER") y deja la carroceria en `type`
+// ("RURAL 5 PUERTAS"). ABSA, en cambio, quiere modelo y version separados
+// ("TRACKER" + "1.2 TURBO AT PREMIER"), asi que hay que partir el string.
+//
+// El corte va en el primer token que parece cilindrada (1.2, 1.4, 2.2JTS).
+// Eso respeta los modelos de dos palabras: "GOL TREND 1.6" corta en "1.6",
+// no despues de "GOL". Si no hay cilindrada ("2008 GT T200 AM26") cae a la
+// primera palabra, que es lo mejor que se puede hacer a ciegas.
+const CILINDRADA = /^\d+[.,]\d/;
+
+export function separarModeloVersion(modelo: string): { modelo: string; version: string } {
+  const tokens = modelo.trim().split(/\s+/).filter(Boolean);
+  if (tokens.length <= 1) return { modelo: tokens.join(" "), version: "" };
+
+  // Desde 1: si el modelo ya arranca con un numero ("159 2.2JTS", "2008 GT")
+  // ese numero es el nombre del modelo, no la cilindrada.
+  const corte = tokens.findIndex((t, i) => i >= 1 && CILINDRADA.test(t));
+  const i = corte === -1 ? 1 : corte;
+
+  return { modelo: tokens.slice(0, i).join(" "), version: tokens.slice(i).join(" ") };
+}
+
+// Lo que DataCar deja en el campo `version` del form es la carroceria, que a
+// ABSA no le sirve. Pero el campo es editable, asi que si alguien escribio una
+// version de verdad hay que respetarla en vez de pisarla.
+const CARROCERIA = /\b(PUERTAS?|SEDAN|RURAL|COUPE|CUPE|PICK[\s-]?UP|FURGON|MONOVOLUMEN|HATCHBACK|CABINA)\b/i;
+
+export function esCarroceria(value: string) {
+  return CARROCERIA.test(value);
+}
 // El body que espera POST /webhooks/hubspot/absa.
 //
 // Ojo con dos campos:
@@ -110,8 +142,9 @@ export function armarPayloadAbsa(
   const modelo = (data.modelo || "").trim();
   if (!modelo) motivos.push("falta modelo");
 
-  const version = (data.version || "").trim();
-  if (!version) motivos.push("falta versión");
+  // La version que manda el form suele ser la carroceria de DataCar, que a
+  // ABSA no le sirve, asi que no se exige: la real sale del modelo.
+  const versionForm = (data.version || "").trim();
 
   const anio = String(data.anio ?? "").trim();
   if (!anio) motivos.push("falta año");
@@ -119,6 +152,10 @@ export function armarPayloadAbsa(
   if (motivos.length > 0 || !sexo || !fechaNacimiento) {
     return { motivos };
   }
+
+  // Si el vendedor escribio una version de verdad, gana sobre la del modelo.
+  const partido = separarModeloVersion(modelo);
+  if (versionForm && !esCarroceria(versionForm)) partido.version = versionForm;
 
   return {
     payload: {
@@ -137,8 +174,8 @@ export function armarPayloadAbsa(
       codigo_postal: codigoPostal,
       localidad,
       marca_vehiculo: marca,
-      modelo_vehiculo: modelo,
-      version_vehiculo: version,
+      modelo_vehiculo: partido.modelo,
+      version_vehiculo: partido.version,
       anio_vehiculo: anio,
       patente: (data.patente || "").trim().toUpperCase(),
     },
