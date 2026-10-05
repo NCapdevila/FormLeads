@@ -134,6 +134,10 @@ export const vendedores = [
   {
     "value": "98303883",
     "label": "Francisco Jean"
+  },
+  {
+    "value": "100214853",
+    "label": "Romina Lopez"
   }
 ];
 
